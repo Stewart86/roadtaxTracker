@@ -1,4 +1,9 @@
+/build/*
 /dist/*
 /dist/RoadTaxTracker/*
+<<<<<<< HEAD
 /build/RoadTaxTracker/*
 roadtax_date.db
+=======
+RoadTaxTracker.spec
+>>>>>>> origin
