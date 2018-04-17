@@ -14,5 +14,7 @@ A simple personal project to monitor a fleet of vehicles' road-tax related opera
 8. For changing of expiry date of a vehicle, or misclicking three checkboxes, keying in the existing vehicle number will update the record.
 9. Please note that all changes is saved via the update button. So please remember to click update to save any changes.
 
-## Issues
+## Questions, issues, feature requests, and contributions
 If you encounter any issue with the App, or would like to report on a bug, please open an issue in this repository.
+
+feel free to ask for feature requests or improvement to this App. Any contribution is welcomed!
