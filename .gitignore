@@ -1,3 +1,4 @@
 /dist/*
 /dist/RoadTaxTracker/*
+/build/RoadTaxTracker/*
 roadtax_date.db
