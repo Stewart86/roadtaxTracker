@@ -21,9 +21,11 @@ class Crud():
             try:
                 parse_date = datetime.strptime(expiry, '%d.%m.%Y')
                 create_new = Vehicle.create(vehicle_no = vehicle, expiry_date = parse_date)
+                db.close()
                 return "New record created"
             except ValueError as ve:
                 msg = "date format must be dd.mm.YYYY"
+                db.close()
                 return msg if vehicle else None
                     
             except:
@@ -31,6 +33,7 @@ class Crud():
                               .update(expiry_date = parse_date)
                               .where(Vehicle.vehicle_no == vehicle)
                               .execute())
+                db.close()
                 return "Attempting to make change to existing vehicle."
                     
             
@@ -41,16 +44,18 @@ class Crud():
             for item in query_orderby:            
                 display.append([item.vehicle_no, item.expiry_date, item.is_informed,
                                 item.is_inspected, item.is_renewed])
+            db.close()
             return list(display)
 
     def sort_within(dayarg):
             day = 1 if dayarg == '' else dayarg
             withindays = dt.timedelta(days = int(day)) 
             display = []
-            query_within_days = Vehicle.select().where(Vehicle.expiry_date <= date.today() + withindays)
+            query_within_days = Vehicle.select().where(Vehicle.expiry_date <= date.today() + withindays).order_by(Vehicle.expiry_date)
             for item in query_within_days:
                     display.append([item.vehicle_no, date.strftime(item.expiry_date, '%d/%m/%Y'), item.is_informed,
                                     item.is_inspected, item.is_renewed])
+            db.close()
             return display if day else None
 
     ## Update
@@ -76,12 +81,14 @@ class Crud():
                               .where(Vehicle.vehicle_no == vehicle)
                               .execute())
                 strMsg = f"{vehicle} updated"
+            db.close()
             return strMsg if vehicle else None
 
     ## Delete
     def delete_item(vehicle):
             del_it = Vehicle.delete().where(Vehicle.vehicle_no == vehicle).execute()
             strMsg = f"{vehicle} Deleted!"
+            db.close()
             return strMsg if vehicle else None
 
 db.connect()
