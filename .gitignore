@@ -1,4 +1,4 @@
 /build/*
 /dist/*
 /dist/RoadTaxTracker/*
-roadtax_date.db
+RoadTaxTracker.spec
