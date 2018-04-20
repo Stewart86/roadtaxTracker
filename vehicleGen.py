@@ -1,15 +1,19 @@
+import csv
+import datetime as dt
 import random
 import sys
-import datetime as dt
 from datetime import date, datetime
-import csv
+
 from model import Crud
+
 
 """
 TODO:
     Add functions to export generated data directly to database
     
 """
+
+
 def car_plate():
     """
     Generate passanger vehicle number plate
@@ -27,14 +31,15 @@ def car_plate():
     (A, Z, Y, X, U, T, S, R, P, M, L, K, J, H, G, E, D, C, B)
     with "A" corresponding to a remainder of 0,
     "Z" corresponding to 1, "Y" corresponding to 2 and so on
-     
+
     """
 
     a1 = "S"
 
     a2 = ["F", "J", "K", "L"]
 
-    a3 = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", ]
+    a3 = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M",
+          "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", ]
 
     gen_a1 = random.choice(a1)
     gen_a2 = random.choice(a2)
@@ -46,13 +51,13 @@ def car_plate():
     gen_num4 = random.randint(0, 9)
 
     prefix = gen_a1 + gen_a2 + gen_a3
-    
+
     exception = "SKY"
     if prefix == exception:
         pass
 
-    csalp2 = ( ord(gen_a2.lower()) - 96 ) * 9
-    csalp3 = ( ord(gen_a3.lower()) - 96 ) * 4
+    csalp2 = (ord(gen_a2.lower()) - 96) * 9
+    csalp3 = (ord(gen_a3.lower()) - 96) * 4
 
     csnum1 = gen_num1 * 5
     csnum2 = gen_num2 * 4
@@ -109,17 +114,17 @@ def car_plate():
     compete = prefix + number + sufix
     return compete
 
+
 def goods_plate():
     """
     Generate commerical vehicle number plate
-     
+
     """
 
     a1 = "G"
 
-
     a2 = ["T", "U", "V", "W", "X", "Y", "Z", "BA", "BB", "BC", "BD", "BE"]
-    
+
     gen_a1 = random.choice(a1)
     gen_a2 = random.choice(a2)
 
@@ -132,18 +137,15 @@ def goods_plate():
 
     csalp2 = 0
     csalp3 = 0
-    
-    for i in prefix:
-        if len(prefix) == 2:
-            
-            csalp2 = ( ord( prefix[0].lower() ) - 96 ) * 9
-            csalp3 = ( ord( prefix[1].lower() ) - 96 ) * 4
 
-        else:
-            csalp2 = ( ord( prefix[1].lower() ) - 96 ) * 9
-            csalp3 = ( ord( prefix[2].lower() ) - 96 ) * 4
-    
+    if len(prefix) == 2:
 
+        csalp2 = (ord(prefix[0].lower()) - 96) * 9
+        csalp3 = (ord(prefix[1].lower()) - 96) * 4
+
+    else:
+        csalp2 = (ord(prefix[1].lower()) - 96) * 9
+        csalp3 = (ord(prefix[2].lower()) - 96) * 4
 
     csnum1 = gen_num1 * 5
     csnum2 = gen_num2 * 4
@@ -200,61 +202,61 @@ def goods_plate():
     compete = prefix + number + sufix
     return compete
 
+
 def date_gen():
     """
     Generate random date ranging from today and one year later
     """
     rd = random.randrange(0, 365)
-    rod = dt.timedelta(days = rd)
+    rod = dt.timedelta(days=rd)
     return datetime.strftime(date.today() + rod, '%d.%m.%Y')
-    
-    
 
-def generate(number, typeof = None):
+
+def generate(number, typeof=None):
     """
     args:
         number --> number of vehicles to generate.
-        
+
         typeof --> None to generate both commerical and cars randomly
                --> "cars" for car only
                --> "goods" for commerical vehicle only
 
     """
     list_of_cars = []
-    if typeof != None:   
+    if typeof != None:
         if typeof == "cars":
-            for i in range(number):                
+            for _ in range(number):
                 if car_plate() in list_of_cars:
                     pass
-##                print(car_plate())
                 list_of_cars.append(car_plate())
-                
+
             return list_of_cars
         elif typeof == "goods":
-            for i in range(number):
+            for _ in range(number):
                 if goods_plate() in list_of_cars:
                     pass
                 list_of_cars.append(goods_plate())
-##                print(goods_plate())
+# print(goods_plate())
             return list_of_cars
-            
+
     else:
-        for i in range(number):
+        for _ in range(number):
             random_type = random.choice([car_plate(), goods_plate()])
             if random_type in list_of_cars:
                 pass
             list_of_cars.append(random_type)
-##            print(random_type)
+# print(random_type)
         return list_of_cars
 
-def csv_writer(entries, typeof = None):
+
+def csv_writer(entries, typeof=None):
     """
     write a list of random generated vehicle number and roadtax expiry date
     to a CSV file with filename as "roadtax.csv"
-    
+
     args:
         refer to generate(number, typeof = None) for more info
-        
+
     """
     with open('roadtax.csv', 'w', newline='') as f:
         fieldnames = ['CarPlate', 'ExpiryDate']
@@ -262,23 +264,25 @@ def csv_writer(entries, typeof = None):
         items = generate(entries, typeof)
         writer.writeheader()
         for item in items:
-            writer.writerow({'CarPlate': f"{item}", 'ExpiryDate': f"{date_gen()}"})
+            writer.writerow(
+                {'CarPlate': f"{item}", 'ExpiryDate': f"{date_gen()}"})
 
-def database_upload(entries, typeof = None):
+
+def database_upload(entries, typeof=None):
     """
     write a list of random generated vehicle number and roadtax expiry date
     to a SQlite3 database with filename as "roadtax_date.db" according to
     model.py
-    
+
     args:
         refer to generate(number, typeof = None) for more info
-        
+
     """
+    c = Crud()
     items = generate(entries, typeof)
     for item in items:
         print(item)
-        Crud.add_new(item, date_gen())
-
+        c.add_new(item, date_gen())
 
 
 def main():
@@ -292,19 +296,16 @@ def main():
     """
     if len(sys.argv) == 2:
         generate(int(sys.argv[1]))
-        input(f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
+        input(
+            f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
     elif len(sys.argv) > 2:
         generate(int(sys.argv[1]), sys.argv[2])
-        input(f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
+        input(
+            f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
     else:
         generate(100)
         input(f"{100} random vehicle generated. Press any key to continue..")
-    
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     main()
-
-
-
-
-

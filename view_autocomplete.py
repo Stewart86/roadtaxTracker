@@ -8,7 +8,7 @@ try:
     from Tkconstants import *
 except ImportError:
     from tkinter import StringVar, Entry, Frame, Listbox, Scrollbar
-    from tkinter.constants import *
+    from tkinter.constants import END, SINGLE, N, S, E, W, VERTICAL, HORIZONTAL
 
 
 def autoscroll(sbar, first, last):
@@ -22,16 +22,20 @@ def autoscroll(sbar, first, last):
 
 
 class Combobox_Autocomplete(Entry, object):
-    def __init__(self, master, list_of_items=None, autocomplete_function=None, listbox_width=None, listbox_height=7, ignorecase_match=False, startswith_match=True, vscrollbar=True, hscrollbar=True, **kwargs):
+    def __init__(self, master, list_of_items=None, autocomplete_function=None,
+                 listbox_width=None, listbox_height=7, ignorecase_match=False,
+                 startswith_match=True, vscrollbar=True, hscrollbar=True, **kwargs):
         if hasattr(self, "autocomplete_function"):
             if autocomplete_function is not None:
-                raise ValueError("Combobox_Autocomplete subclass has 'autocomplete_function' implemented")
+                raise ValueError(
+                    "Combobox_Autocomplete subclass has 'autocomplete_function' implemented")
         else:
             if autocomplete_function is not None:
                 self.autocomplete_function = autocomplete_function
             else:
                 if list_of_items is None:
-                    raise ValueError("If not guiven complete function, list_of_items can't be 'None'")
+                    raise ValueError(
+                        "If not guiven complete function, list_of_items can't be 'None'")
 
                 if ignorecase_match:
                     if startswith_match:
@@ -41,7 +45,8 @@ class Combobox_Autocomplete(Entry, object):
                         def matches_function(entry_data, item):
                             return item in entry_data
 
-                    self.autocomplete_function = lambda entry_data: [item for item in self.list_of_items if matches_function(entry_data, item)]
+                    self.autocomplete_function = lambda entry_data: [
+                        item for item in self.list_of_items if matches_function(entry_data, item)]
                 else:
                     if startswith_match:
                         def matches_function(escaped_entry_data, item):
@@ -55,18 +60,18 @@ class Combobox_Autocomplete(Entry, object):
                                 return True
                             else:
                                 return False
-                    
-                    def autocomplete_function(entry_data):
+
+                    def autocomplete_function2(entry_data):
                         escaped_entry_data = re.escape(entry_data)
                         return [item for item in self.list_of_items if matches_function(escaped_entry_data, item)]
 
-                    self.autocomplete_function = autocomplete_function
+                    self.autocomplete_function = autocomplete_function2
 
         self._listbox_height = int(listbox_height)
         self._listbox_width = listbox_width
 
         self.list_of_items = list_of_items
-        
+
         self._use_vscrollbar = vscrollbar
         self._use_hscrollbar = hscrollbar
 
@@ -80,7 +85,7 @@ class Combobox_Autocomplete(Entry, object):
         Entry.__init__(self, master, **kwargs)
 
         self._trace_id = self._entry_var.trace('w', self._on_change_entry_var)
-        
+
         self._listbox = None
 
         self.bind("<Tab>", self._on_tab)
@@ -91,13 +96,13 @@ class Combobox_Autocomplete(Entry, object):
 
         self.bind("<Return>", self._update_entry_from_listbox)
         self.bind("<Escape>", lambda event: self.unpost_listbox())
-        
+
     def _on_tab(self, event):
         self.post_listbox()
         return "break"
 
     def _on_change_entry_var(self, name, index, mode):
-        
+
         entry_data = self._entry_var.get()
 
         if entry_data == '':
@@ -116,7 +121,7 @@ class Combobox_Autocomplete(Entry, object):
 
                     for item in values:
                         self._listbox.insert(END, item)
-                
+
             else:
                 self.unpost_listbox()
                 self.focus()
@@ -124,41 +129,49 @@ class Combobox_Autocomplete(Entry, object):
     def _build_listbox(self, values):
         listbox_frame = Frame()
 
-        self._listbox = Listbox(listbox_frame, background="white", selectmode=SINGLE, activestyle="none", exportselection=False)
-        self._listbox.grid(row=0, column=0,sticky = N+E+W+S)
+        self._listbox = Listbox(listbox_frame, background="white",
+                                selectmode=SINGLE, activestyle="none",
+                                exportselection=False)
+        self._listbox.grid(row=0, column=0, sticky=N+E+W+S)
 
-        self._listbox.bind("<ButtonRelease-1>", self._update_entry_from_listbox)
+        self._listbox.bind("<ButtonRelease-1>",
+                           self._update_entry_from_listbox)
         self._listbox.bind("<Return>", self._update_entry_from_listbox)
         self._listbox.bind("<Escape>", lambda event: self.unpost_listbox())
-        
+
         self._listbox.bind('<Control-n>', self._next)
         self._listbox.bind('<Control-p>', self._previous)
 
         if self._use_vscrollbar:
-            vbar = Scrollbar(listbox_frame, orient=VERTICAL, command= self._listbox.yview)
+            vbar = Scrollbar(listbox_frame, orient=VERTICAL,
+                             command=self._listbox.yview)
             vbar.grid(row=0, column=1, sticky=N+S)
-            
-            self._listbox.configure(yscrollcommand= lambda f, l: autoscroll(vbar, f, l))
-            
+
+            self._listbox.configure(
+                yscrollcommand=lambda f, l: autoscroll(vbar, f, l))
+
         if self._use_hscrollbar:
-            hbar = Scrollbar(listbox_frame, orient=HORIZONTAL, command= self._listbox.xview)
+            hbar = Scrollbar(listbox_frame, orient=HORIZONTAL,
+                             command=self._listbox.xview)
             hbar.grid(row=1, column=0, sticky=E+W)
-            
-            self._listbox.configure(xscrollcommand= lambda f, l: autoscroll(hbar, f, l))
 
-        listbox_frame.grid_columnconfigure(0, weight= 1)
-        listbox_frame.grid_rowconfigure(0, weight= 1)
+            self._listbox.configure(
+                xscrollcommand=lambda f, l: autoscroll(hbar, f, l))
 
-        x = -self.cget("borderwidth") - self.cget("highlightthickness") 
-        y = self.winfo_height()-self.cget("borderwidth") - self.cget("highlightthickness")
+        listbox_frame.grid_columnconfigure(0, weight=1)
+        listbox_frame.grid_rowconfigure(0, weight=1)
+
+        x = -self.cget("borderwidth") - self.cget("highlightthickness")
+        y = self.winfo_height()-self.cget("borderwidth") - \
+            self.cget("highlightthickness")
 
         if self._listbox_width:
             width = self._listbox_width
         else:
-            width=self.winfo_width()
+            width = self.winfo_width()
 
         listbox_frame.place(in_=self, x=x, y=y, width=width)
-        
+
         height = min(self._listbox_height, len(values))
         self._listbox.configure(height=height)
 
@@ -166,10 +179,12 @@ class Combobox_Autocomplete(Entry, object):
             self._listbox.insert(END, item)
 
     def post_listbox(self):
-        if self._listbox is not None: return
+        if self._listbox is not None:
+            return
 
         entry_data = self._entry_var.get()
-        if entry_data == '': return
+        if entry_data == '':
+            return
 
         values = self.autocomplete_function(entry_data)
         if values:
@@ -191,7 +206,7 @@ class Combobox_Autocomplete(Entry, object):
 
         self.icursor(END)
         self.xview_moveto(1.0)
-        
+
     def _set_var(self, text):
         self._entry_var.trace_vdelete("w", self._trace_id)
         self._entry_var.set(text)
@@ -200,7 +215,7 @@ class Combobox_Autocomplete(Entry, object):
     def _update_entry_from_listbox(self, event):
         if self._listbox is not None:
             current_selection = self._listbox.curselection()
-            
+
             if current_selection:
                 text = self._listbox.get(current_selection)
                 self._set_var(text)
@@ -211,14 +226,14 @@ class Combobox_Autocomplete(Entry, object):
             self.focus()
             self.icursor(END)
             self.xview_moveto(1.0)
-            
+
         return "break"
 
     def _previous(self, event):
         if self._listbox is not None:
             current_selection = self._listbox.curselection()
 
-            if len(current_selection)==0:
+            if len(current_selection) == 0:
                 self._listbox.selection_set(0)
                 self._listbox.activate(0)
             else:
@@ -240,20 +255,19 @@ class Combobox_Autocomplete(Entry, object):
         if self._listbox is not None:
 
             current_selection = self._listbox.curselection()
-            if len(current_selection)==0:
+            if len(current_selection) == 0:
                 self._listbox.selection_set(0)
                 self._listbox.activate(0)
             else:
                 index = int(current_selection[0])
                 self._listbox.selection_clear(index)
-                
+
                 if index == self._listbox.size() - 1:
                     index = 0
                 else:
-                    index +=1
-                    
+                    index += 1
+
                 self._listbox.see(index)
                 self._listbox.selection_set(index)
                 self._listbox.activate(index)
         return "break"
-
