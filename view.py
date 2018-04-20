@@ -7,6 +7,7 @@ from tkinter.font import Font, nametofont
 from tkinter.ttk import Treeview, Style
 from tkinter import Tk
 from tkinter import messagebox
+from view_autocomplete import Combobox_Autocomplete
 
 
 try:
@@ -40,6 +41,7 @@ class Row(object):
     def __len__(self):
         return self._multicolumn_listbox.number_of_columns
 
+
 class Column(object):
     def __init__(self, table, index):
         self._multicolumn_listbox = table
@@ -59,6 +61,7 @@ class Column(object):
 
     def __len__(self):
         return self._multicolumn_listbox.number_of_rows
+
 
 class Multicolumn_Listbox(Frame):
     _style_index = 0
@@ -544,17 +547,21 @@ class Multicolumn_Listbox(Frame):
     def item_ID(self, index):
         return self.interior.get_children()[index]
 
-
 def SecWindow():
     if to_edit['state'] == 'normal':
         to_edit.config(state = DISABLED)
 
     edit_window = Toplevel()
-    
+
+    ##########################################################################################
+    ## ToDo:
+    ## Implement autocomplet on vehicle
     edit_window.add_vehlabel = Label(edit_window, text = 'Vehicle no.')
     edit_window.add_vehlabel.pack()
     
-    edit_window.add_vehicle = Entry(edit_window)
+    sorted_list = sort_show_vehicle()
+
+    edit_window.add_vehicle = Combobox_Autocomplete(edit_window, sorted_list)
     edit_window.add_vehicle.pack(padx = 15)
     
     edit_window.add_explabel = Label(edit_window, text = 'expiry date in (dd.mm.yyyy)')
@@ -587,9 +594,6 @@ def SecWindow():
     edit_window.add_button.pack()
 
     edit_window.protocol("WM_DELETE_WINDOW", quit_edit)
-
-
-
 
 root = Tk()
 
@@ -644,7 +648,6 @@ def callback(event):
     send.config(state = NORMAL)
     pass
     
-
 send = Button(mc.inputframe, padx = 10, text = "Update!")
 root.bind("<Return>", callback)
 send.bind("<Button-1>", callback)
@@ -652,14 +655,12 @@ send.bind("<Button-1>", callback)
 to_edit = Button(root, text = 'Edit', command = SecWindow, width = 15)
 to_edit.config(state= ACTIVE)
 
-
 to_edit.pack(side = TOP, anchor = W, padx = 40)
 entry.pack(side = LEFT)
 send.pack(side = LEFT)
 chkbox3.pack(side = RIGHT, anchor = W, pady = 1, padx = 1)
 chkbox2.pack(side = RIGHT, anchor = W, pady = 1, padx = 1)
 chkbox1.pack(side = RIGHT, anchor = W, pady = 1, padx = 1)
-
 
 mc.interior.pack(padx = 40, pady= 15)
 

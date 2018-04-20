@@ -11,6 +11,13 @@ def sort_all():
         sorted_list = Crud.sort_all()
         return list(sorted_list)
 
+def sort_show_vehicle():
+        sorted_list = Crud.sort_all()
+        list_vehicle = []
+        for row in sorted_list:
+                list_vehicle.append(row[0])
+        return list_vehicle
+
 def show_within(dayarg):
         sorted_list = Crud.sort_within(dayarg)
         return sorted_list
