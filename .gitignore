@@ -1,3 +1,5 @@
+_pycache_
+.vscode
 /build/*
 /dist/*
 /dist/RoadTaxTracker/*
