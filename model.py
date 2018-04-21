@@ -17,7 +17,7 @@ class Vehicle(Model):
         database = db
 
 
-class Crud():
+class Crud:
     def add_new(self, vehicle, expiry):
         try:
             self.parse_date = datetime.strptime(expiry, '%d.%m.%Y')
