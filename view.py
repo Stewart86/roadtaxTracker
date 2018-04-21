@@ -19,6 +19,7 @@ def SecWindow():
     ##########################################################################################
     # ToDo:
     # Implement autocomplet on vehicle
+    # instead of second window, make a pane or notbook for editing
     edit_window.add_vehlabel = Label(edit_window, text='Vehicle no.')
     edit_window.add_vehlabel.pack()
 
@@ -75,13 +76,16 @@ renewed = BooleanVar()
 
 
 def on_select(data):
+    # to impliment multiple selection
     global vehicle
-    vehicle = data[0]
     global expiry
+
+    vehicle = data[0]
     expiry = data[1]
     informed.set(data[2])
     inspected.set(data[3])
     renewed.set(data[4])
+
     return vehicle, informed, inspected, renewed
 
 
@@ -105,9 +109,11 @@ label.pack(fill=BOTH, side=LEFT)
 inputframe.pack(padx=30, pady=30, fill=BOTH)
 tableframe.pack(padx=30, pady=30, fill=BOTH)
 
-mc = Multicolumn_Listbox(tableframe, ["Vehicle Number", "Expiry Date", "Informed", "Inspected",
-                                      "Renewed"], stripped_rows=("white", "lavender"),
-                         command=on_select, cell_anchor="center", height=20)
+# relief column defination to controller.py
+mc = Multicolumn_Listbox(tableframe, ["Vehicle Number", "Expiry Date",
+                                      "Informed", "Inspected", "Renewed"],
+                         stripped_rows=("white", "lavender"), command=on_select,
+                         cell_anchor="center", height=20)
 
 scrollbar = Scrollbar(tableframe)
 scrollbar.config(command=mc.interior.yview)
@@ -148,7 +154,7 @@ def callback(event):
 
 
 send = Button(inputframe, padx=10, text="Update!")
-root.bind("<Return>", callback)
+inputframe.bind("<Return>", callback)
 send.bind("<Button-1>", callback)
 
 to_edit = Button(root, text='Edit', command=SecWindow, width=15)
