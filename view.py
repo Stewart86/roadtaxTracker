@@ -10,65 +10,13 @@ from view_autocomplete import Combobox_Autocomplete
 from view_multi_listbox import Multicolumn_Listbox
 
 
-def SecWindow():
-    if to_edit['state'] == 'normal':
-        to_edit.config(state=DISABLED)
-
-    edit_window = Toplevel()
-
-    ##########################################################################################
-    # ToDo:
-    # Implement autocomplet on vehicle
-    # instead of second window, make a pane or notbook for editing
-    edit_window.add_vehlabel = Label(edit_window, text='Vehicle no.')
-    edit_window.add_vehlabel.grid(row=0, column=0)
-    sorted_list = sort_show_vehicle()
-    edit_window.add_vehicle = Combobox_Autocomplete(edit_window, sorted_list)
-    edit_window.add_vehicle.grid(row=0, column=0)
-    
-    edit_window.add_explabel = Label(
-        edit_window, text='expiry date in (dd.mm.yyyy)')
-    edit_window.add_explabel.grid(row=0, column=0)
-    
-    edit_window.add_expiry = Entry(edit_window)
-    edit_window.add_expiry.grid(row=0, column=0)
-    
-    def show_info(msg):
-        messagebox.showinfo("This is magical!", msg)
-
-    def del_edit():
-        delete = delete_item(edit_window.add_vehicle.get())
-        if delete != None:
-            show_info(delete)
-        edit_window.destroy()
-        to_edit.config(state=NORMAL)
-
-    def quit_edit():
-        add_vehicle = add_new(edit_window.add_vehicle.get(),
-                              edit_window.add_expiry.get())
-        if add_vehicle != None:
-            show_info(add_vehicle)
-        edit_window.destroy()
-        to_edit.config(state=NORMAL)
-
-    edit_window.delete_button = Button(
-        edit_window, command=del_edit, text="delete")
-    edit_window.delete_button.grid(row=0, column=0)
-    
-    edit_window.add_button = Button(
-        edit_window, command=quit_edit, text="Add / Edit")
-    edit_window.add_button.grid(row=0, column=0)
-    
-    edit_window.protocol("WM_DELETE_WINDOW", quit_edit)
-
-
 root = Tk()
 root.title("RoadTax Renewal Tracker")
 root.configure(background='lavender')
-window_width = 1080
-window_height = 600
-root.maxsize(width=window_width, height=window_height)
-root.minsize(width=window_width, height=window_height)
+# window_width = 1080
+# window_height = 700
+# root.maxsize(width=window_width, height=window_height)
+# root.minsize(width=window_width, height=window_height)
 
 vehicle = ""
 expiry = ""
@@ -90,26 +38,31 @@ def on_select(data):
 
     return vehicle, informed, inspected, renewed
 
-
 def show_info(msg):
     messagebox.showinfo("This is magical!", msg)
+
 
 
 inputframe = Frame(root)
 inputframe.configure(background='lavender')
 
 tableframe = Frame(root)
-inputframe.configure(background='lavender')
+tableframe.configure(background='lavender')
+
+editframe = Frame(root)
+editframe.configure(background='lavender')
+
 
 title = Label(inputframe, font=(
-    "Courier", 24), text="Road-Tax Renewal Tracker", bg='lavender')
+    "Courier", 28), text="Road-Tax Renewal Tracker", bg='lavender')
 label = Label(inputframe, text="day(s)", bg='lavender')
 
-title.grid(row=0, column=0, columnspan=8,padx=40)
+title.grid(row=0, column=0)
 label.grid(row=1, column=3)
 
-inputframe.grid(row=0, column=0)
-tableframe.grid(row=1, column=0, padx=30, pady=30, sticky=N+S+E+W)
+inputframe.grid(row=0, column=0, padx=100, pady=30)
+tableframe.grid(row=1, column=0, padx=30, pady=30)
+editframe.grid(row=2, column=0, padx=30,  pady=30)
 
 # relief column defination to controller.py
 mc = Multicolumn_Listbox(tableframe, ["Vehicle Number", "Expiry Date",
@@ -152,24 +105,53 @@ def callback(event):
         return entry.get()
     except ValueError:
         show_info("Invalid input, Number only la!!!")
-        send.config(state=NORMAL)
+        update.config(state=NORMAL)
         pass
 
+editframe_label = Label(editframe, text="Edit", bg='lavender')
+editframe_label.grid(row=1, column=0, columnspan=6, pady=5, padx=5)
 
-send = Button(inputframe, padx=10, text="Update!")
+add_vehlabel = Label(editframe, text='Vehicle no.', bg='lavender')
+add_vehlabel.grid(row=2, column=1, pady=5, padx=5)
+
+sorted_list = list(sort_show_vehicle())
+
+add_vehicle = Combobox_Autocomplete(editframe, list_of_items=sorted_list)
+add_vehicle.grid(row=2, column=2, pady=5, padx=5)
+
+add_explabel = Label(editframe, text='expiry date in (dd.mm.yyyy)', bg='lavender')
+add_explabel.grid(row=2, column=3, pady=5, padx=5)
+
+add_expiry = Entry(editframe)
+add_expiry.grid(row=2, column=4, pady=5, padx=5)
+
+def del_edit():
+    delete = delete_item(add_vehicle.get())
+    if delete != None:
+        show_info(delete)
+
+delete_button = Button(editframe, command=del_edit, text="delete")
+delete_button.grid(row=2, column=5, pady=5, padx=5)
+
+def quit_edit():
+    add_vehicle1 = add_new(add_vehicle.get(), add_expiry.get())
+    if add_vehicle1 != None:
+        show_info(add_vehicle1)
+
+add_button = Button(editframe, command=quit_edit, text="Add / Edit", bg='lavender')
+add_button.grid(row=2, column=6, pady=5, padx=5)
+
+
+update = Button(inputframe, padx=10, text="Update!")
 inputframe.bind("<Return>", callback)
-send.bind("<Button-1>", callback)
-
-to_edit = Button(root, text='Edit', command=SecWindow, width=15)
-to_edit.config(state=ACTIVE)
+update.bind("<Button-1>", callback)
 
 entry.grid(row=1, column=0, pady=1, padx=1)
-send.grid(row=1, column=7, pady=1, padx=1)
-to_edit.grid(row=2, column=0, padx=40)
+update.grid(row=1, column=7, pady=1, padx=1)
 entry.grid(row=1, column=2, pady=1, padx=1)
-chkbox3.grid(row=1, column=4, pady=1, padx=1)
-chkbox2.grid(row=1, column=5, pady=1, padx=1)
-chkbox1.grid(row=1, column=6, pady=1, padx=1)
 
+chkbox1.grid(row=1, column=4, pady=1, padx=1)
+chkbox2.grid(row=1, column=5, pady=1, padx=1)
+chkbox3.grid(row=1, column=6, pady=1, padx=1)
 
 root.mainloop()
