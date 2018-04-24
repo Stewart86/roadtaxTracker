@@ -15,6 +15,8 @@ btn_colour = "DeepSkyBlue3"
 root = Tk()
 root.title("RoadTax Renewal Tracker")
 root.configure(background=bg_colour)
+# root.resizable(width=False, height=False)
+
 
 vehicle = ""
 expiry = ""
@@ -49,14 +51,11 @@ titleframe = Frame(root)
 titleframe.configure(background=bg_colour)
 titleframe.grid(row=0, column=0)
 
-
 editframe = LabelFrame(root, text="Edit")
 editframe.configure(background=bg_colour)
 editframe.grid(row=2, column=0, padx=30,  pady=30)
 
 roadtax_tab = ttk.Notebook(root)
-
-# roadtax_tab.configure(background=bg_colour)
 
 bodyframe = Frame(roadtax_tab)
 bodyframe.configure(background=bg_colour)
@@ -75,7 +74,7 @@ column_header = ["Vehicle Number", "Expiry Date",
                  "Informed", "Inspected", "Renewed"]
 
 mc = Multicolumn_Listbox(bodyframe, column_header, command=on_select,
-                         stripped_rows=("white", bg_colour),
+                         stripped_rows=("white", bg_colour), select_mode="browse",
                          cell_anchor="center", height=20)
 
 scrollbar = Scrollbar(bodyframe)
@@ -100,7 +99,10 @@ chkbox3 = Checkbutton(bodyframe, text="Renewed",
 
 
 def callback():
-
+    """
+    update database with boolean values. 
+    currently partially managed by model.py 
+    """
     try:
         update = update_checks(
             vehicle, expiry, informed.get(), inspected.get(), renewed.get())
@@ -114,6 +116,11 @@ def callback():
 
 
 def refresh(event):
+    """
+    Dynamically update table as user type in the query
+        :param event:
+            KeyRelease event binded to Entry widget
+    """
     mc.table_data = show_within(entry.get())
 
 
@@ -126,6 +133,9 @@ add_expiry = Entry(editframe)
 
 
 def del_edit():
+    """
+    delete item from database
+    """
     delete = delete_item(add_vehicle.get())
     if delete != None:
         show_info(delete)
@@ -150,11 +160,11 @@ entry.bind("<KeyRelease>", refresh)
 
 title.grid(row=0, column=0, columnspan=6, padx=20, pady=20)
 
-entry.grid(row=0, column=0, pady=10, padx=10, sticky=E+S)
-label.grid(row=0, column=1, pady=10, padx=10, sticky=W+S)
-chkbox1.grid(row=0, column=2, pady=10, padx=10, sticky=W+E+S)
-chkbox2.grid(row=0, column=3, pady=10, padx=10, sticky=W+E+S)
-chkbox3.grid(row=0, column=4, pady=10, padx=10, sticky=W+E+S)
+entry.grid(row=0, column=0, pady=10, padx=10, sticky=E)
+label.grid(row=0, column=1, pady=10, padx=10, sticky=W)
+chkbox1.grid(row=0, column=2, pady=10, padx=10, sticky=W+E)
+chkbox2.grid(row=0, column=3, pady=10, padx=10, sticky=W+E)
+chkbox3.grid(row=0, column=4, pady=10, padx=10, sticky=W+E)
 update.grid(row=0, column=5, pady=10, padx=10)
 
 add_vehlabel.grid(row=2, column=1, pady=5, padx=5)
@@ -163,5 +173,24 @@ add_explabel.grid(row=2, column=3, pady=5, padx=5)
 add_expiry.grid(row=2, column=4, pady=5, padx=5)
 delete_button.grid(row=2, column=5, pady=5, padx=5)
 add_button.grid(row=2, column=6, pady=5, padx=5)
+
+"""Configure window to launch in the middle of the screen"""
+root.update_idletasks()
+h = root.winfo_reqheight()  # width for the Tk root
+w = root.winfo_reqwidth()  # height for the Tk root
+
+# get screen width and height
+ws = root.winfo_screenwidth()  # width of the screen
+hs = root.winfo_screenheight()  # height of the screen
+
+print(w, h, ws, hs)
+
+# calculate x and y coordinates for the Tk root window
+x = (ws/2) - (w/2)
+y = (hs/2) - (h/2)
+
+# set the dimensions of the screen
+# and where it is placed
+root.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
 root.mainloop()
