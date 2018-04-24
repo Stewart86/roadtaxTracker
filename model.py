@@ -20,15 +20,22 @@ class Vehicle(Model):
 class Crud:
     def add_new(self, vehicle, expiry):
         try:
-            self.parse_date = datetime.strptime(expiry, '%d.%m.%Y')
+            self.parse_date = datetime.strptime(expiry, '%d/%m/%Y')
             self.create_new = Vehicle.create(
                 vehicle_no=vehicle, expiry_date=self.parse_date)
             db.close()
             return "New record created"
         except ValueError:
-            self.msg = "date format must be dd.mm.YYYY"
-            db.close()
-            return self.msg if vehicle else None
+            try:
+                self.parse_date = datetime.strptime(expiry, '%d.%m.%Y')
+                self.create_new = Vehicle.create(
+                    vehicle_no=vehicle, expiry_date=self.parse_date)
+                db.close()
+                return "New record created"
+            except:
+                self.msg = "date format must be dd.mm.YYYY"
+                db.close()
+                return self.msg if vehicle else None
 
         except:
             self.update_row = (Vehicle
