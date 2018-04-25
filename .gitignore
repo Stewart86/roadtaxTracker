@@ -5,4 +5,5 @@ __pycache__
 /dist/RoadTaxTracker/*
 /build/RoadTaxTracker/*
 RoadTaxTracker.spec
-contractbuilder.py
+_config.yml
+/build

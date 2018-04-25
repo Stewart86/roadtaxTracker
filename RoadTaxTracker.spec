@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['RoadTaxTracker.py'],
-             pathex=['C:\\Users\\User\\Dropbox\\PythonSourceCode\\RoadtaxTracker'],
+             pathex=['C:\\Users\\User\\Documents\\PythonModules\\roadtaxTracker'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -18,16 +18,12 @@ pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
           a.scripts,
-          exclude_binaries=True,
+          a.binaries,
+          a.zipfiles,
+          a.datas,
           name='RoadTaxTracker',
           debug=False,
           strip=False,
           upx=True,
+          runtime_tmpdir=None,
           console=False )
-coll = COLLECT(exe,
-               a.binaries,
-               a.zipfiles,
-               a.datas,
-               strip=False,
-               upx=True,
-               name='RoadTaxTracker')
