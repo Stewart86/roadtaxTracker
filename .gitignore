@@ -1,7 +1,6 @@
 __pycache__
 .vscode
 RoadTaxTracker.spec
-_config.yml
 /build
 /build/*
 /dist/*
