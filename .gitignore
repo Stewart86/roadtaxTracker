@@ -1,10 +1,12 @@
-__pycache__
-.vscode
+__pycache__/*
+__pycache__/
+.vscode/
 RoadTaxTracker.spec
 /build
 /build/*
 /dist/*
 /dist/RoadTaxTracker/*
 /build/RoadTaxTracker/*
-
+dist/
+*.yml
 
