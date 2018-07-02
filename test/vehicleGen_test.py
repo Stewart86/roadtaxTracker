@@ -1,7 +1,9 @@
 import unittest
 import vehicleGen
 
+
 class TestVehicleNumber(unittest.TestCase):
+    """Test vehicle Number generation"""
 
     def test_goods_plate(self):
         self.assertEqual(vehicleGen.goods_plate()[0], "G")
@@ -18,7 +20,7 @@ class TestVehicleNumber(unittest.TestCase):
             self.assertEqual(i[0], "S")
         for i in test2:
             self.assertEqual(i[0], "G")
-    
+
     def test_exception(self):
         test1 = vehicleGen.generate(200, "cars")
         for item in test1:

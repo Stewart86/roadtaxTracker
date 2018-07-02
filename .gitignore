@@ -9,4 +9,5 @@ RoadTaxTracker.spec
 /build/RoadTaxTracker/*
 dist/
 *.yml
+.env
 
