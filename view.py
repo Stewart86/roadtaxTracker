@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 from tkinter import (BooleanVar, Button, Checkbutton, Entry, Frame, Label,
-                     Scrollbar, Tk, Toplevel, messagebox, LabelFrame, ttk)
-from tkinter.constants import (ACTIVE, BOTH, CENTER, DISABLED, LEFT, NORMAL,
-                               RIGHT, TOP, W, E, N, S, END)
+                     Scrollbar, Tk, messagebox, LabelFrame, ttk)
+from tkinter.constants import (NORMAL, W, E, N, S, END)
 
 from controller import (add_new, delete_item, show_within, sort_show_vehicle,
                         update_checks)
@@ -29,11 +28,11 @@ def on_select(data):
     # to impliment multiple selection
     global vehicle
     global expiry
-    global add_vehicle
-    global add_expiry
-    add_expiry.delete(0, END)
-    add_expiry.insert(END, data[1])
-    add_vehicle.set_value(data[0])
+    global new_vehicle_license
+    global new_vehicle_expiry
+    new_vehicle_expiry.delete(0, END)
+    new_vehicle_expiry.insert(END, data[1])
+    new_vehicle_license.set_value(data[0])
     vehicle = data[0]
     expiry = data[1]
     informed.set(data[2])
@@ -73,8 +72,11 @@ label = Label(bodyframe, text="day(s)", bg=bg_colour)
 column_header = ["Vehicle Number", "Expiry Date",
                  "Informed", "Inspected", "Renewed"]
 
-mc = Multicolumn_Listbox(bodyframe, column_header, command=on_select,
-                         stripped_rows=("white", bg_colour), select_mode="browse",
+mc = Multicolumn_Listbox(bodyframe,
+                         column_header,
+                         command=on_select,
+                         stripped_rows=("white", bg_colour),
+                         select_mode="browse",
                          cell_anchor="center", height=20)
 
 scrollbar = Scrollbar(bodyframe)
@@ -90,18 +92,24 @@ entry.focus_set()
 
 mc.table_data = show_within(entry.get())
 
-chkbox1 = Checkbutton(bodyframe, text="Informed",
-                      variable=informed, bg=bg_colour)
-chkbox2 = Checkbutton(bodyframe, text="Inspected",
-                      variable=inspected, bg=bg_colour)
-chkbox3 = Checkbutton(bodyframe, text="Renewed",
-                      variable=renewed, bg=bg_colour)
+chkbox1 = Checkbutton(bodyframe,
+                      text="Informed",
+                      variable=informed,
+                      bg=bg_colour)
+chkbox2 = Checkbutton(bodyframe,
+                      text="Inspected",
+                      variable=inspected,
+                      bg=bg_colour)
+chkbox3 = Checkbutton(bodyframe,
+                      text="Renewed",
+                      variable=renewed,
+                      bg=bg_colour)
 
 
 def callback():
     """
-    update database with boolean values. 
-    currently partially managed by model.py 
+    update database with boolean values.
+    currently partially managed by model.py
     """
     try:
         update = update_checks(
@@ -126,35 +134,44 @@ def refresh(event):
 
 add_vehlabel = Label(editframe, text='Vehicle no.', bg=bg_colour)
 sorted_list = list(sort_show_vehicle())
-add_vehicle = Combobox_Autocomplete(editframe, list_of_items=sorted_list)
-add_explabel = Label(
-    editframe, text='expiry date in (dd.mm.yyyy)', bg=bg_colour)
-add_expiry = Entry(editframe)
+new_vehicle_license = Combobox_Autocomplete(editframe,
+                                            list_of_items=sorted_list)
+add_explabel = Label(editframe,
+                     text='expiry date in (dd.mm.yyyy)', bg=bg_colour)
+new_vehicle_expiry = Entry(editframe)
 
 
-def del_edit():
+def delete_button_func():
     """
     delete item from database
     """
-    delete = delete_item(add_vehicle.get())
-    if delete != None:
-        show_info(delete)
+    result = delete_item(new_vehicle_license.get())
+    if result is not None:
+        show_info(result)
 
 
-delete_button = Button(editframe, command=del_edit,
-                       text="delete", background=btn_colour, disabledforeground="DeepSkyBlue4")
+delete_button = Button(editframe,
+                       command=delete_button_func,
+                       text="delete",
+                       background=btn_colour,
+                       disabledforeground="DeepSkyBlue4")
 
 
 def quit_edit():
-    add_vehicle1 = add_new(add_vehicle.get(), add_expiry.get())
-    if add_vehicle1 != None:
-        show_info(add_vehicle1)
+    new_vehicle_license1 = add_new(
+            new_vehicle_license.get(), new_vehicle_expiry.get())
+    if new_vehicle_license1 is not None:
+        show_info(new_vehicle_license1)
 
 
-add_button = Button(editframe, command=quit_edit,
-                    text="Add / Edit", background=btn_colour)
-update = Button(bodyframe, text="Update!",
-                background=btn_colour, command=callback)
+add_button = Button(editframe,
+                    command=quit_edit,
+                    text="Add / Edit",
+                    background=btn_colour)
+update = Button(bodyframe,
+                text="Update!",
+                background=btn_colour,
+                command=callback)
 
 entry.bind("<KeyRelease>", refresh)
 
@@ -168,9 +185,9 @@ chkbox3.grid(row=0, column=4, pady=10, padx=10, sticky=W+E)
 update.grid(row=0, column=5, pady=10, padx=10)
 
 add_vehlabel.grid(row=2, column=1, pady=5, padx=5)
-add_vehicle.grid(row=2, column=2, pady=5, padx=5)
+new_vehicle_license.grid(row=2, column=2, pady=5, padx=5)
 add_explabel.grid(row=2, column=3, pady=5, padx=5)
-add_expiry.grid(row=2, column=4, pady=5, padx=5)
+new_vehicle_expiry.grid(row=2, column=4, pady=5, padx=5)
 delete_button.grid(row=2, column=5, pady=5, padx=5)
 add_button.grid(row=2, column=6, pady=5, padx=5)
 

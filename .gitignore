@@ -10,4 +10,5 @@ RoadTaxTracker.spec
 dist/
 *.yml
 .env
-
+/env/*
+*.swp

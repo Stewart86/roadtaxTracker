@@ -18,3 +18,11 @@ A simple personal project to monitor a fleet of vehicles' road-tax related opera
 If you encounter any issue with the App, or would like to report on a bug, please open an issue in this repository.
 
 feel free to ask for feature requests or improvement to this App. Any contribution is welcomed!
+
+## Development
+```
+>> python3 -m venv env
+>> source env/bin/activate
+>> python -m unittest test/*
+>> deactivate
+```
