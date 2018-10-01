@@ -226,7 +226,9 @@ def generate(number, typeof=None):
     list_of_cars = []
 
     if typeof is None:
-        generate_type = random.choice([car_plate, goods_plate])
+        plate_generators = [car_plate, goods_plate]
+        random_int = random.randint(0, len(plate_generators)-1)
+        generate_type = plate_generators[random_int]
     elif typeof == "cars":
         generate_type = car_plate
     elif typeof == "goods":
