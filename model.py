@@ -103,7 +103,8 @@ class Crud:
         db.close()
         if inform and inspect and renew:
             return f"{vehicle} renewed, expiry date updated to 6 months from now."
-        return = f"{vehicle} updated"
+
+        return f"{vehicle} updated"
 
     def delete_item(self, vehicle):
         if vehicle is None:
