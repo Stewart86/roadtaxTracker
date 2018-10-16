@@ -222,31 +222,25 @@ def generate(number, typeof=None):
                --> "goods" for commerical vehicle only
 
     """
+    generate_type = None
     list_of_cars = []
-    if typeof != None:
-        if typeof == "cars":
-            for _ in range(number):
-                if car_plate() in list_of_cars:
-                    pass
-                list_of_cars.append(car_plate())
 
-            return list_of_cars
-        elif typeof == "goods":
-            for _ in range(number):
-                if goods_plate() in list_of_cars:
-                    pass
-                list_of_cars.append(goods_plate())
-# print(goods_plate())
-            return list_of_cars
+    if typeof is None:
+        plate_generators = [car_plate, goods_plate]
+        random_int = random.randint(0, len(plate_generators)-1)
+        generate_type = plate_generators[random_int]
+    elif typeof == "cars":
+        generate_type = car_plate
+    elif typeof == "goods":
+        generate_type = goods_plate
 
-    else:
-        for _ in range(number):
-            random_type = random.choice([car_plate(), goods_plate()])
-            if random_type in list_of_cars:
-                pass
-            list_of_cars.append(random_type)
-# print(random_type)
-        return list_of_cars
+    for _ in range(number):
+        new_license_plate = generate_type()
+        if new_license_plate in list_of_cars:
+            pass
+        list_of_cars.append(new_license_plate)
+
+    return list_of_cars
 
 
 def csv_writer(entries, typeof=None):
