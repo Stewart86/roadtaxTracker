@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from tkinter import (BooleanVar, Button, Checkbutton, Entry, Frame, Label,
-                     Scrollbar, Tk, messagebox, LabelFrame, ttk)
+                     Scrollbar, Tk, messagebox, LabelFrame, ttk, PhotoImage)
 from tkinter.constants import (NORMAL, W, E, N, S, END)
 
 from controller import (add_new, delete_item, show_within, sort_show_vehicle,
@@ -10,6 +10,8 @@ from view_multi_listbox import Multicolumn_Listbox
 
 bg_colour = "DeepSkyBlue2"
 btn_colour = "DeepSkyBlue3"
+bg_alt = "#ECECEC"
+
 
 root = Tk()
 root.title("RoadTax Renewal Tracker")
@@ -50,9 +52,11 @@ titleframe = Frame(root)
 titleframe.configure(background=bg_colour)
 titleframe.grid(row=0, column=0)
 
-editframe = LabelFrame(root, text="Edit")
-editframe.configure(background=bg_colour)
-editframe.grid(row=2, column=0, padx=30,  pady=30)
+editframeTitle = Label(root,  text="Manage Entries", background=bg_alt, pady=5)
+
+editframe = LabelFrame(root, text="Manage Entries", borderwidth=0, labelanchor='n', labelwidget=editframeTitle)
+editframe.configure(background=bg_alt)
+editframe.grid(row=2, column=0, padx=40,  pady=25)
 
 roadtax_tab = ttk.Notebook(root)
 
@@ -132,12 +136,12 @@ def refresh(event):
     mc.table_data = show_within(entry.get())
 
 
-add_vehlabel = Label(editframe, text='Vehicle no.', bg=bg_colour)
+add_vehlabel = Label(editframe, text='Vehicle no. :', bg=bg_alt)
 sorted_list = list(sort_show_vehicle())
 new_vehicle_license = Combobox_Autocomplete(editframe,
                                             list_of_items=sorted_list)
 add_explabel = Label(editframe,
-                     text='expiry date in (dd.mm.yyyy)', bg=bg_colour)
+                     text='Expiry Date (dd/mm/yyyy) :', bg=bg_alt)
 new_vehicle_expiry = Entry(editframe)
 
 
@@ -152,9 +156,12 @@ def delete_button_func():
 
 delete_button = Button(editframe,
                        command=delete_button_func,
-                       text="delete",
+                       text="Delete",
                        background=btn_colour,
-                       disabledforeground="DeepSkyBlue4")
+                       disabledforeground="DeepSkyBlue4", borderwidth=0,highlightbackground=bg_alt)
+delete_img = PhotoImage(file="assets/buttons/button_delete.gif") # make sure to add "/" not "\"
+delete_button.config(image=delete_img)
+delete_button.pack() 
 
 
 def quit_edit():
@@ -167,11 +174,20 @@ def quit_edit():
 add_button = Button(editframe,
                     command=quit_edit,
                     text="Add / Edit",
-                    background=btn_colour)
+                    background=btn_colour,
+                    disabledforeground="DeepSkyBlue4", borderwidth=0,highlightbackground=bg_alt)
+add_img = PhotoImage(file="assets/buttons/button_add-edit.gif") 
+add_button.config(image=add_img)
+add_button.pack() 
+
 update = Button(bodyframe,
                 text="Update!",
                 background=btn_colour,
-                command=callback)
+                command=callback, disabledforeground="DeepSkyBlue4", borderwidth=0,highlightbackground=bg_colour)
+update_img = PhotoImage(file="assets/buttons/button_update.gif") 
+update.config(image=update_img)
+update.pack() 
+
 
 entry.bind("<KeyRelease>", refresh)
 
@@ -184,9 +200,9 @@ chkbox2.grid(row=0, column=3, pady=10, padx=10, sticky=W+E)
 chkbox3.grid(row=0, column=4, pady=10, padx=10, sticky=W+E)
 update.grid(row=0, column=5, pady=10, padx=10)
 
-add_vehlabel.grid(row=2, column=1, pady=5, padx=5)
+add_vehlabel.grid(row=2, column=1, pady=5, padx=3)
 new_vehicle_license.grid(row=2, column=2, pady=5, padx=5)
-add_explabel.grid(row=2, column=3, pady=5, padx=5)
+add_explabel.grid(row=2, column=3, pady=5, padx=3)
 new_vehicle_expiry.grid(row=2, column=4, pady=5, padx=5)
 delete_button.grid(row=2, column=5, pady=5, padx=5)
 add_button.grid(row=2, column=6, pady=5, padx=5)
