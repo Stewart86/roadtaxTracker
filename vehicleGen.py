@@ -68,48 +68,8 @@ def car_plate():
 
     number = str(gen_num1) + str(gen_num2) + str(gen_num3) + str(gen_num4)
 
-    sufix = ''
-
-    if compute % 19 == 0:
-        sufix = 'A'
-    elif compute % 19 == 1:
-        sufix = 'Z'
-    elif compute % 19 == 2:
-        sufix = 'Y'
-    elif compute % 19 == 3:
-        sufix = 'X'
-    elif compute % 19 == 4:
-        sufix = 'U'
-    elif compute % 19 == 5:
-        sufix = 'T'
-    elif compute % 19 == 6:
-        sufix = 'S'
-    elif compute % 19 == 7:
-        sufix = 'R'
-    elif compute % 19 == 8:
-        sufix = 'P'
-    elif compute % 19 == 9:
-        sufix = 'M'
-    elif compute % 19 == 10:
-        sufix = 'L'
-    elif compute % 19 == 11:
-        sufix = 'K'
-    elif compute % 19 == 12:
-        sufix = 'J'
-    elif compute % 19 == 13:
-        sufix = 'H'
-    elif compute % 19 == 14:
-        sufix = 'G'
-    elif compute % 19 == 15:
-        sufix = 'E'
-    elif compute % 19 == 16:
-        sufix = 'D'
-    elif compute % 19 == 17:
-        sufix = 'C'
-    elif compute % 19 == 18:
-        sufix = 'B'
-    else:
-        raise ValueError
+    # TODO: Handle Value Error 
+    suffix = get_suffix(compute)
 
     compete = prefix + number + sufix
     return compete
@@ -156,51 +116,39 @@ def goods_plate():
 
     number = str(gen_num1) + str(gen_num2) + str(gen_num3) + str(gen_num4)
 
-    sufix = ''
-
-    if compute % 19 == 0:
-        sufix = 'A'
-    elif compute % 19 == 1:
-        sufix = 'Z'
-    elif compute % 19 == 2:
-        sufix = 'Y'
-    elif compute % 19 == 3:
-        sufix = 'X'
-    elif compute % 19 == 4:
-        sufix = 'U'
-    elif compute % 19 == 5:
-        sufix = 'T'
-    elif compute % 19 == 6:
-        sufix = 'S'
-    elif compute % 19 == 7:
-        sufix = 'R'
-    elif compute % 19 == 8:
-        sufix = 'P'
-    elif compute % 19 == 9:
-        sufix = 'M'
-    elif compute % 19 == 10:
-        sufix = 'L'
-    elif compute % 19 == 11:
-        sufix = 'K'
-    elif compute % 19 == 12:
-        sufix = 'J'
-    elif compute % 19 == 13:
-        sufix = 'H'
-    elif compute % 19 == 14:
-        sufix = 'G'
-    elif compute % 19 == 15:
-        sufix = 'E'
-    elif compute % 19 == 16:
-        sufix = 'D'
-    elif compute % 19 == 17:
-        sufix = 'C'
-    elif compute % 19 == 18:
-        sufix = 'B'
-    else:
-        raise ValueError
+    # TODO: Handle Value Error 
+    suffix = get_suffix(compute)
 
     compete = prefix + number + sufix
     return compete
+
+def get_suffix(num):
+    compute_dict = {   
+        0  : 'A',
+        1  : 'Z',
+        2  : 'Y',
+        3  : 'X',
+        4  : 'U',
+        5  : 'T',
+        6  : 'S',
+        7  : 'R',
+        8  : 'P',
+        9  : 'M',
+        10 : 'L',
+        11 : 'K',
+        12 : 'J',
+        13 : 'H',
+        14 : 'G',
+        15 : 'E',
+        16 : 'D',
+        17 : 'C',
+        18 : 'B'
+    }
+
+    if num % 19 in compute_dict:
+        return compute_dict[num % 19]
+    else:
+        raise ValueError
 
 
 def date_gen():
