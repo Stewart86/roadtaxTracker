@@ -66,7 +66,7 @@ def car_plate():
 
     compute = csalp2 + csalp3 + csnum1 + csnum2 + csnum3 + csnum4
 
-    number = str(gen_num1) + str(gen_num2) + str(gen_num3) + str(gen_num4)
+    number = str(gen_num1 + gen_num2 + gen_num3 + gen_num4)
 
     sufix = ''
 
@@ -154,7 +154,7 @@ def goods_plate():
 
     compute = csalp2 + csalp3 + csnum1 + csnum2 + csnum3 + csnum4
 
-    number = str(gen_num1) + str(gen_num2) + str(gen_num3) + str(gen_num4)
+    number = str(gen_num1 + gen_num2 + gen_num3 + gen_num4)
 
     sufix = ''
 
@@ -231,13 +231,11 @@ def generate(number, typeof=None):
         generate_type = plate_generators[random_int]
     elif typeof == "cars":
         generate_type = car_plate
-    elif typeof == "goods":
+    else:
         generate_type = goods_plate
 
     for _ in range(number):
         new_license_plate = generate_type()
-        if new_license_plate in list_of_cars:
-            pass
         list_of_cars.append(new_license_plate)
 
     return list_of_cars
@@ -275,8 +273,7 @@ def database_upload(entries, typeof=None):
     c = Crud()
     items = generate(entries, typeof)
     for item in items:
-        print(item)
-        c.add_new(item, date_gen())
+        c.add_new(item, data_gen())
 
 
 def main():
