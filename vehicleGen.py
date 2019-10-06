@@ -268,7 +268,7 @@ def database_upload(entries, typeof=None):
     c = Crud()
     items = generate(entries, typeof)
     for item in items:
-        c.add_new(item, data_gen())
+        c.add_new(item, date_gen())
 
 
 def main():
