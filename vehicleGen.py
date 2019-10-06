@@ -10,8 +10,19 @@ from model import Crud
 """
 TODO:
     Add functions to export generated data directly to database
-    
 """
+
+def gen_numbers():
+    gen_nums = []
+    csnums = []
+
+    while len(gen_nums) < 4:
+        gen_nums.append(random.randint(0, 9))
+
+    for index, num in enumerate(gen_nums):
+        csnums.append(num * (5 - index))
+
+    return gen_nums, csnums
 
 
 def car_plate():
@@ -45,10 +56,7 @@ def car_plate():
     gen_a2 = random.choice(a2)
     gen_a3 = random.choice(a3)
 
-    gen_num1 = random.randint(0, 9)
-    gen_num2 = random.randint(0, 9)
-    gen_num3 = random.randint(0, 9)
-    gen_num4 = random.randint(0, 9)
+    gen_nums, csnums = gen_numbers()
 
     prefix = gen_a1 + gen_a2 + gen_a3
 
@@ -59,14 +67,9 @@ def car_plate():
     csalp2 = (ord(gen_a2.lower()) - 96) * 9
     csalp3 = (ord(gen_a3.lower()) - 96) * 4
 
-    csnum1 = gen_num1 * 5
-    csnum2 = gen_num2 * 4
-    csnum3 = gen_num3 * 3
-    csnum4 = gen_num4 * 2
+    compute = csalp2 + csalp3 + sum(csnums)
 
-    compute = csalp2 + csalp3 + csnum1 + csnum2 + csnum3 + csnum4
-
-    number = str(gen_num1 + gen_num2 + gen_num3 + gen_num4)
+    number = ''.join(str(num) for num in gen_nums)
 
     sufix = ''
 
@@ -128,10 +131,7 @@ def goods_plate():
     gen_a1 = random.choice(a1)
     gen_a2 = random.choice(a2)
 
-    gen_num1 = random.randint(0, 9)
-    gen_num2 = random.randint(0, 9)
-    gen_num3 = random.randint(0, 9)
-    gen_num4 = random.randint(0, 9)
+    gen_nums, csnums = gen_numbers()
 
     prefix = gen_a1 + gen_a2
 
@@ -147,14 +147,9 @@ def goods_plate():
         csalp2 = (ord(prefix[1].lower()) - 96) * 9
         csalp3 = (ord(prefix[2].lower()) - 96) * 4
 
-    csnum1 = gen_num1 * 5
-    csnum2 = gen_num2 * 4
-    csnum3 = gen_num3 * 3
-    csnum4 = gen_num4 * 2
+    compute = csalp2 + csalp3 + sum(csnums)
 
-    compute = csalp2 + csalp3 + csnum1 + csnum2 + csnum3 + csnum4
-
-    number = str(gen_num1 + gen_num2 + gen_num3 + gen_num4)
+    number = ''.join(str(num) for num in gen_nums)
 
     sufix = ''
 
