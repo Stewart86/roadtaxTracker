@@ -16,7 +16,7 @@ bg_alt = "#ECECEC"
 root = Tk()
 root.title("RoadTax Renewal Tracker")
 root.configure(background=bg_colour)
-# root.resizable(width=False, height=False)
+root.resizable(False,False)             #To make the application non-resizable and to grey out the maximize button
 
 
 vehicle = ""
@@ -52,11 +52,12 @@ titleframe = Frame(root)
 titleframe.configure(background=bg_colour)
 titleframe.grid(row=0, column=0)
 
-editframeTitle = Label(root,  text="Manage Entries", background=bg_alt, pady=5)
+editframeTitle = Label(root, text="Manage Entries", background=bg_colour, pady=5)
 
-editframe = LabelFrame(root, text="Manage Entries", borderwidth=0, labelanchor='n', labelwidget=editframeTitle)
-editframe.configure(background=bg_alt)
+editframe = LabelFrame(root, text="Manage Entries", borderwidth=1, labelanchor='n', labelwidget=editframeTitle, font=("Myriad Pro Bold", 10))
+editframe.configure(background=bg_colour)
 editframe.grid(row=2, column=0, padx=40,  pady=25)
+
 
 roadtax_tab = ttk.Notebook(root)
 
@@ -135,13 +136,10 @@ def refresh(event):
     """
     mc.table_data = show_within(entry.get())
 
-
-add_vehlabel = Label(editframe, text='Vehicle no. :', bg=bg_alt)
+add_vehlabel = Label(editframe, text='Vehicle'+'\n'+ 'number', bg=bg_colour)
 sorted_list = list(sort_show_vehicle())
-new_vehicle_license = Combobox_Autocomplete(editframe,
-                                            list_of_items=sorted_list)
-add_explabel = Label(editframe,
-                     text='Expiry Date (dd/mm/yyyy) :', bg=bg_alt)
+new_vehicle_license = Combobox_Autocomplete(editframe,list_of_items=sorted_list)
+add_explabel = Label(editframe,text='Expiry Date'+'\n'+'(dd/mm/yyyy)', bg=bg_colour)
 new_vehicle_expiry = Entry(editframe)
 
 
@@ -161,24 +159,20 @@ delete_button = Button(editframe,
                        disabledforeground="DeepSkyBlue4", borderwidth=0,highlightbackground=bg_alt)
 delete_img = PhotoImage(file="assets/buttons/button_delete.gif") # make sure to add "/" not "\"
 delete_button.config(image=delete_img)
-delete_button.pack() 
 
 
 def quit_edit():
-    new_vehicle_license1 = add_new(
-            new_vehicle_license.get(), new_vehicle_expiry.get())
+    new_vehicle_license1 = add_new(new_vehicle_license.get(), new_vehicle_expiry.get())
     if new_vehicle_license1 is not None:
         show_info(new_vehicle_license1)
-
 
 add_button = Button(editframe,
                     command=quit_edit,
                     text="Add / Edit",
                     background=btn_colour,
                     disabledforeground="DeepSkyBlue4", borderwidth=0,highlightbackground=bg_alt)
-add_img = PhotoImage(file="assets/buttons/button_add-edit.gif") 
+add_img = PhotoImage(file="assets/buttons/button_add-edit.gif")
 add_button.config(image=add_img)
-add_button.pack() 
 
 update = Button(bodyframe,
                 text="Update!",
@@ -186,7 +180,6 @@ update = Button(bodyframe,
                 command=callback, disabledforeground="DeepSkyBlue4", borderwidth=0,highlightbackground=bg_colour)
 update_img = PhotoImage(file="assets/buttons/button_update.gif") 
 update.config(image=update_img)
-update.pack() 
 
 
 entry.bind("<KeyRelease>", refresh)
@@ -200,12 +193,13 @@ chkbox2.grid(row=0, column=3, pady=10, padx=10, sticky=W+E)
 chkbox3.grid(row=0, column=4, pady=10, padx=10, sticky=W+E)
 update.grid(row=0, column=5, pady=10, padx=10)
 
+
 add_vehlabel.grid(row=2, column=1, pady=5, padx=3)
 new_vehicle_license.grid(row=2, column=2, pady=5, padx=5)
 add_explabel.grid(row=2, column=3, pady=5, padx=3)
 new_vehicle_expiry.grid(row=2, column=4, pady=5, padx=5)
-delete_button.grid(row=2, column=5, pady=5, padx=5)
-add_button.grid(row=2, column=6, pady=5, padx=5)
+delete_button.grid(row=3, column=32, pady=5, padx=5,sticky=N+S+E)
+add_button.grid(row=3, column=3, pady=5, padx=5,sticky=W)
 
 """Configure window to launch in the middle of the screen"""
 root.update_idletasks()
