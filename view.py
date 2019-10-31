@@ -198,8 +198,8 @@ add_vehlabel.grid(row=2, column=1, pady=5, padx=3)
 new_vehicle_license.grid(row=2, column=2, pady=5, padx=5)
 add_explabel.grid(row=2, column=3, pady=5, padx=3)
 new_vehicle_expiry.grid(row=2, column=4, pady=5, padx=5)
-delete_button.grid(row=3, column=32, pady=5, padx=5,sticky=N+S+E)
-add_button.grid(row=3, column=3, pady=5, padx=5,sticky=W)
+delete_button.grid(row=3, column=5, pady=0, padx=5)
+add_button.grid(row=2, column=5, pady=0, padx=5,sticky=E)
 
 """Configure window to launch in the middle of the screen"""
 root.update_idletasks()
