@@ -121,10 +121,10 @@ class Combobox_Autocomplete(Entry, object):
             hbar.grid(row=1, column=0, sticky=E+W)
             self._listbox.configure(
                 xscrollcommand=lambda f, l: autoscroll(hbar, f, l))
-        listbox_frame.grid_columnconfigure(0, weight=1)
-        listbox_frame.grid_rowconfigure(0, weight=1)
-        x = -self.cget("borderwidth") - self.cget("highlightthickness")
-        y = self.winfo_height()-self.cget("borderwidth") - \
+            listbox_frame.grid_columnconfigure(0, weight=1)
+            listbox_frame.grid_rowconfigure(0, weight=1)
+            x = -self.cget("borderwidth") - self.cget("highlightthickness")
+            y = self.winfo_height()-self.cget("borderwidth") - \
             self.cget("highlightthickness")
         elif self._listbox_width:
             width = self._listbox_width
@@ -139,10 +139,10 @@ class Combobox_Autocomplete(Entry, object):
         if self._listbox is not None:
             return
         entry_data = self._entry_var.get()
-        elif entry_data == '':
+        if entry_data == '':
             return
         values = self.autocomplete_function(entry_data)
-        elif values:
+        if values:
             self._build_listbox(values)
     def unpost_listbox(self):
         if self._listbox is not None:
@@ -182,7 +182,7 @@ class Combobox_Autocomplete(Entry, object):
                 index = int(current_selection[0])
                 self._listbox.selection_clear(index)
                 if index == 0:
-					index = END
+                    index = END
                 else:
                     index -= 1
                 self._listbox.see(index)

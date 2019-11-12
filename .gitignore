@@ -12,3 +12,6 @@ dist/
 .env
 /env/*
 *.swp
+
+# JetBrains Rider
+.idea/
