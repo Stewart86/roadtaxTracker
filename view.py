@@ -44,10 +44,6 @@ def on_select(data):
     return vehicle, informed, inspected, renewed
 
 
-def show_info(msg):
-    messagebox.showinfo("This is magical!", msg)
-
-
 titleframe = Frame(root)
 titleframe.configure(background=bg_colour)
 titleframe.grid(row=0, column=0)
@@ -120,10 +116,10 @@ def callback():
         update = update_checks(
             vehicle, expiry, informed.get(), inspected.get(), renewed.get())
         if update is not None:
-            show_info(update)
+            messagebox.showinfo("Update","Some informations have been updated : {}".format(update))
             mc.table_data = show_within(entry.get())
     except ValueError:
-        show_info("Invalid input, Number only la!!!")
+        messagebox.showerror("Invalid input","The value you entered in incorrect. It must be a number")
         update.config(state=NORMAL)
         pass
 
@@ -149,7 +145,7 @@ def delete_button_func():
     """
     result = delete_item(new_vehicle_license.get())
     if result is not None:
-        show_info(result)
+        messagebox.showinfo("Deleted item","An item has been succesfully deleted : {}".format(result))
 
 
 delete_button = Button(editframe,
@@ -164,7 +160,7 @@ delete_button.config(image=delete_img)
 def quit_edit():
     new_vehicle_license1 = add_new(new_vehicle_license.get(), new_vehicle_expiry.get())
     if new_vehicle_license1 is not None:
-        show_info(new_vehicle_license1)
+        messagebox.showinfo("Adding new vehicule",new_vehicle_license1)
 
 add_button = Button(editframe,
                     command=quit_edit,
