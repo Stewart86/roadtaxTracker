@@ -23,6 +23,7 @@ feel free to ask for feature requests or improvement to this App. Any contributi
 ```
 >> python3 -m venv env
 >> source env/bin/activate
+>> pip install -r requirements.txt
 >> python -m unittest test/*.py
 >> deactivate
 ```
