@@ -1,7 +1,7 @@
 import csv
 import datetime as dt
 import random
-import sys
+import argparse
 from datetime import date, datetime
 
 from model import Crud
@@ -15,19 +15,15 @@ TODO:
 def gen_numbers():
     gen_nums = []
     csnums = []
-
-    while len(gen_nums) < 4:
-        gen_nums.append(random.randint(0, 9))
-
-    for index, num in enumerate(gen_nums):
-        csnums.append(num * (5 - index))
-
+    for i in range(4):
+        gen_nums.append(random.randrange(10))
+        csnums.append(gen_nums[i] * (5-i))
     return gen_nums, csnums
 
 
 def car_plate():
     """
-    Generate passanger vehicle number plate
+    Generate passenger vehicle number plate
 
     Checksum:
 
@@ -60,9 +56,14 @@ def car_plate():
 
     prefix = gen_a1 + gen_a2 + gen_a3
 
-    exception = "SKY"
-    if prefix == exception:
-        pass
+    # QUESTION: What was the point of this?
+    # As the script would behave exactly the same if we left it out.
+    # If the goal is to exclude 'SKY' results, then don't "pass".
+    # I fixed it in the generate function.
+    #
+    # exception = "SKY"
+    # if prefix == exception:
+    #    pass
 
     csalp2 = (ord(gen_a2.lower()) - 96) * 9
     csalp3 = (ord(gen_a3.lower()) - 96) * 4
@@ -71,10 +72,12 @@ def car_plate():
 
     number = ''.join(str(num) for num in gen_nums)
 
-    # TODO: Handle Value Error 
+    # TODO: Handle Value Error
+    # QUESTION: What is meant by this?
+    # QUESTION2: If we handle ValueError, shouldn't we do that in get_suffix?
     suffix = get_suffix(compute)
 
-    compete = prefix + number + sufix
+    compete = prefix + number + suffix
     return compete
 
 
@@ -114,7 +117,7 @@ def goods_plate():
     # TODO: Handle Value Error 
     suffix = get_suffix(compute)
 
-    compete = prefix + number + sufix
+    compete = prefix + number + suffix
     return compete
 
 def get_suffix(num):
@@ -165,7 +168,6 @@ def generate(number, typeof=None):
                --> "goods" for commerical vehicle only
 
     """
-    generate_type = None
     list_of_cars = []
 
     if typeof is None:
@@ -179,6 +181,13 @@ def generate(number, typeof=None):
 
     for _ in range(number):
         new_license_plate = generate_type()
+        check_pass = False
+        while not check_pass:
+            try:
+                assert new_license_plate[:3] != "SKY"
+                check_pass = True
+            except AssertionError:
+                new_license_plate = generate_type()
         list_of_cars.append(new_license_plate)
 
     return list_of_cars
@@ -186,11 +195,11 @@ def generate(number, typeof=None):
 
 def csv_writer(entries, typeof=None):
     """
-    write a list of random generated vehicle number and roadtax expiry date
+    Write a list of random generated vehicle number and roadtax expiry date
     to a CSV file with filename as "roadtax.csv"
 
     args:
-        refer to generate(number, typeof = None) for more info
+        Refer to generate(number, typeof = None) for more info
 
     """
     with open('roadtax.csv', 'w', newline='') as f:
@@ -205,11 +214,11 @@ def csv_writer(entries, typeof=None):
 
 def database_upload(entries, typeof=None):
     """
-    write a list of random generated vehicle number and roadtax expiry date
+    Write a list of random generated vehicle number and roadtax expiry date
     to a SQlite3 database with filename as "roadtax_date.db" according to
     model.py
 
-    args:
+    Args:
         refer to generate(number, typeof = None) for more info
 
     """
@@ -221,24 +230,28 @@ def database_upload(entries, typeof=None):
 
 def main():
     """
-    running as a script.
-        --> no arg provided, auto generate 100 random vehicle numbers
-        --> number of vehicle number provided, generate number with random
+    Running as a script.
+        --> No arg provided, auto generate 100 random vehicle numbers
+        --> Number of vehicle number provided, generate number with random
             type
-        --> number of vehicle and type provided, generate number with that
-            named type. refer to generate function for typeof keywords
+        --> Number of vehicle and type provided, generate number with that
+            named type. Refer to generate function for typeof keywords
     """
-    if len(sys.argv) == 2:
-        generate(int(sys.argv[1]))
-        input(
-            f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
-    elif len(sys.argv) > 2:
-        generate(int(sys.argv[1]), sys.argv[2])
-        input(
-            f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-n","--number", default=100, type=int,
+                    help="Amount of vehicle numbers to generate, default 100")
+    parser.add_argument("--type", choices=['cars', 'goods'],
+                    help="Type of vehicle to create vehicle numbers for")
+    args = parser.parse_args()
+
+    if args.type:
+        generate(args.number, args.type)
+        result = (f"{args.number} vehicle numbers "
+                 f"of type {args.type} generated. ")
     else:
-        generate(100)
-        input(f"{100} random vehicle generated. Press any key to continue..")
+        generate(args.number)
+        result = f"{args.number} random vehicle numbers generated. "
+    input(result+"Press Return to continue..")
 
 
 if __name__ == '__main__':
