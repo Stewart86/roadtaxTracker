@@ -30,6 +30,7 @@ To Genarate a list of 100 random vehicles use this. Or with arguement value will
 >> python vehicleGen.py
 ```
 Adding a second arguement value to generate vehicle of one type ("cars", "goods")
+
 Will generate 10 random vehicle numbers of only "car" type
 ```
 >> python vehicleGen.py 10 cars
