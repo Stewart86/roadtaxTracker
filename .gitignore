@@ -12,8 +12,9 @@ dist/
 .env
 /env/*
 *.swp
+roadtax_date.db
+*.db
+
 
 # JetBrains Rider
 .idea/
-roadtax_date.db
-*.db
