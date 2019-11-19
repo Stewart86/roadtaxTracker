@@ -21,7 +21,7 @@ feel free to ask for feature requests or improvement to this App. Any contributi
 
 ## Development / installation
 ```
->> python install
+>> pipenv install
 >> pipenv shell
 
 ```
