@@ -19,10 +19,23 @@ If you encounter any issue with the App, or would like to report on a bug, pleas
 
 feel free to ask for feature requests or improvement to this App. Any contribution is welcomed!
 
-## Development
+## Development / installation
 ```
->> python3 -m venv env
->> source env/bin/activate
+>> python install
+>> pipenv shell
+
+```
+To Genarate a list of random vehicles use this.
+```
+>> python vehicleGen.py
+```
+
+To run the app use this.
+```
+>> python RoadTaxTracker.py
+```
+
+For unit testing use this.
+```
 >> python -m unittest test/*
->> deactivate
 ```

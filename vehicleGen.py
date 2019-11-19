@@ -74,7 +74,7 @@ def car_plate():
     # TODO: Handle Value Error 
     suffix = get_suffix(compute)
 
-    compete = prefix + number + sufix
+    compete = prefix + number + suffix
     return compete
 
 
@@ -114,7 +114,7 @@ def goods_plate():
     # TODO: Handle Value Error 
     suffix = get_suffix(compute)
 
-    compete = prefix + number + sufix
+    compete = prefix + number + suffix
     return compete
 
 def get_suffix(num):
