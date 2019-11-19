@@ -25,9 +25,13 @@ feel free to ask for feature requests or improvement to this App. Any contributi
 >> pipenv shell
 
 ```
-To Genarate a list of random vehicles use this.
+To Genarate a list of 100 random vehicles use this. Or with arguement value will generate a list with that value.
 ```
 >> python vehicleGen.py
+```
+Will generate 10 random vehicle numbers
+```
+>> python vehicleGen.py 10 
 ```
 
 To run the app use this.
