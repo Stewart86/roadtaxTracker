@@ -16,3 +16,4 @@ dist/
 # JetBrains Rider
 .idea/
 roadtax_date.db
+*.db
