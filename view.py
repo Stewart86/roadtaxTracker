@@ -13,10 +13,15 @@ btn_colour = "DeepSkyBlue3"
 bg_alt = "#ECECEC"
 
 
+def run():
+    pass
+
+
 root = Tk()
 root.title("RoadTax Renewal Tracker")
 root.configure(background=bg_colour)
-root.resizable(False,False)             #To make the application non-resizable and to grey out the maximize button
+# To make the application non-resizable and to grey out the maximize button
+root.resizable(False, False)
 
 
 vehicle = ""
@@ -48,9 +53,11 @@ titleframe = Frame(root)
 titleframe.configure(background=bg_colour)
 titleframe.grid(row=0, column=0)
 
-editframeTitle = Label(root, text="Manage Entries", background=bg_colour, pady=5)
+editframeTitle = Label(root, text="Manage Entries",
+                       background=bg_colour, pady=5)
 
-editframe = LabelFrame(root, text="Manage Entries", borderwidth=1, labelanchor='n', labelwidget=editframeTitle, font=("Myriad Pro Bold", 10))
+editframe = LabelFrame(root, text="Manage Entries", borderwidth=1,
+                       labelanchor='n', labelwidget=editframeTitle, font=("Myriad Pro Bold", 10))
 editframe.configure(background=bg_colour)
 editframe.grid(row=2, column=0, padx=40,  pady=25)
 
@@ -116,10 +123,12 @@ def callback():
         update = update_checks(
             vehicle, expiry, informed.get(), inspected.get(), renewed.get())
         if update is not None:
-            messagebox.showinfo("Update","Some informations have been updated : {}".format(update))
+            messagebox.showinfo(
+                "Update", "Some informations have been updated : {}".format(update))
             mc.table_data = show_within(entry.get())
     except ValueError:
-        messagebox.showerror("Invalid input","The value you entered in incorrect. It must be a number")
+        messagebox.showerror(
+            "Invalid input", "The value you entered in incorrect. It must be a number")
         update.config(state=NORMAL)
         pass
 
@@ -132,10 +141,13 @@ def refresh(event):
     """
     mc.table_data = show_within(entry.get())
 
-add_vehlabel = Label(editframe, text='Vehicle'+'\n'+ 'number', bg=bg_colour)
+
+add_vehlabel = Label(editframe, text='Vehicle'+'\n' + 'number', bg=bg_colour)
 sorted_list = list(sort_show_vehicle())
-new_vehicle_license = Combobox_Autocomplete(editframe,list_of_items=sorted_list)
-add_explabel = Label(editframe,text='Expiry Date'+'\n'+'(dd/mm/yyyy)', bg=bg_colour)
+new_vehicle_license = Combobox_Autocomplete(
+    editframe, list_of_items=sorted_list)
+add_explabel = Label(editframe, text='Expiry Date' +
+                     '\n'+'(dd/mm/yyyy)', bg=bg_colour)
 new_vehicle_expiry = Entry(editframe)
 
 
@@ -145,36 +157,40 @@ def delete_button_func():
     """
     result = delete_item(new_vehicle_license.get())
     if result is not None:
-        messagebox.showinfo("Deleted item","An item has been succesfully deleted : {}".format(result))
+        messagebox.showinfo(
+            "Deleted item", "An item has been succesfully deleted : {}".format(result))
 
 
 delete_button = Button(editframe,
                        command=delete_button_func,
                        text="Delete",
                        background=btn_colour,
-                       disabledforeground="DeepSkyBlue4", borderwidth=0,highlightbackground=bg_alt)
-delete_img = PhotoImage(file="assets/buttons/button_delete.gif") # make sure to add "/" not "\"
+                       disabledforeground="DeepSkyBlue4", borderwidth=0, highlightbackground=bg_alt)
+# make sure to add "/" not "\"
+delete_img = PhotoImage(file="assets/buttons/button_delete.gif")
 delete_button.config(image=delete_img)
 
 
 def quit_edit():
-    new_vehicle_license1 = add_new(new_vehicle_license.get(), new_vehicle_expiry.get())
+    new_vehicle_license1 = add_new(
+        new_vehicle_license.get(), new_vehicle_expiry.get())
     if new_vehicle_license1 is not None:
-        messagebox.showinfo("Adding new vehicule",new_vehicle_license1)
+        messagebox.showinfo("Adding new vehicule", new_vehicle_license1)
+
 
 add_button = Button(editframe,
                     command=quit_edit,
                     text="Add / Edit",
                     background=btn_colour,
-                    disabledforeground="DeepSkyBlue4", borderwidth=0,highlightbackground=bg_alt)
+                    disabledforeground="DeepSkyBlue4", borderwidth=0, highlightbackground=bg_alt)
 add_img = PhotoImage(file="assets/buttons/button_add-edit.gif")
 add_button.config(image=add_img)
 
 update = Button(bodyframe,
                 text="Update!",
                 background=btn_colour,
-                command=callback, disabledforeground="DeepSkyBlue4", borderwidth=0,highlightbackground=bg_colour)
-update_img = PhotoImage(file="assets/buttons/button_update.gif") 
+                command=callback, disabledforeground="DeepSkyBlue4", borderwidth=0, highlightbackground=bg_colour)
+update_img = PhotoImage(file="assets/buttons/button_update.gif")
 update.config(image=update_img)
 
 
@@ -195,7 +211,7 @@ new_vehicle_license.grid(row=2, column=2, pady=5, padx=5)
 add_explabel.grid(row=2, column=3, pady=5, padx=3)
 new_vehicle_expiry.grid(row=2, column=4, pady=5, padx=5)
 delete_button.grid(row=3, column=5, pady=0, padx=5)
-add_button.grid(row=2, column=5, pady=0, padx=5,sticky=E)
+add_button.grid(row=2, column=5, pady=0, padx=5, sticky=E)
 
 """Configure window to launch in the middle of the screen"""
 root.update_idletasks()

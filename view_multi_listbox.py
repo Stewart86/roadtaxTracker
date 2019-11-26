@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-from tkinter import Frame, Toplevel, Tk, Label, Scrollbar
-from tkinter.constants import (ACTIVE, BOTH, CENTER, DISABLED, LEFT, NORMAL,
-                               RIGHT, TOP, W)
+from tkinter import Frame
+from tkinter.constants import (CENTER, W)
 from tkinter.font import Font, nametofont
 from tkinter.ttk import Style, Treeview
 
