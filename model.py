@@ -27,7 +27,7 @@ class Vehicle(Model):
         try:
             return datetime.strptime(date, '%d/%m/%Y')
         except ValueError:
-            return datetime.strptime(expiry, '%d.%m.%Y')
+            return datetime.strptime(date, '%d.%m.%Y')
         raise ValueError("date format must be dd.mm.YYYY")
 
     class Meta:
