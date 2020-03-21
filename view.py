@@ -159,6 +159,7 @@ def delete_button_func():
     if result is not None:
         messagebox.showinfo(
             "Deleted item", "An item has been succesfully deleted : {}".format(result))
+        #mc.table_data = show_within(entry.get())
 
 
 delete_button = Button(editframe,
@@ -176,6 +177,7 @@ def quit_edit():
         new_vehicle_license.get(), new_vehicle_expiry.get())
     if new_vehicle_license1 is not None:
         messagebox.showinfo("Adding new vehicule", new_vehicle_license1)
+        #mc.table_data = show_within(entry.get())
 
 
 add_button = Button(editframe,
