@@ -238,6 +238,9 @@ def main():
             f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
     else:
         generate(100)
+        csv_writer(100) # Create csv File while generating Values
+        # Create Entries in Database(roadtax_date) table('vehicle') With the help of model class
+        database_upload(100) 
         input(f"{100} random vehicle generated. Press any key to continue..")
 
 
