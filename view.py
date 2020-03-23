@@ -84,7 +84,7 @@ mc = Multicolumn_Listbox(bodyframe,
                          column_header,
                          command=on_select,
                          stripped_rows=("white", bg_colour),
-                         select_mode="browse",
+                         select_mode="extended", #browse
                          cell_anchor="center", height=20)
 
 scrollbar = Scrollbar(bodyframe)
@@ -120,11 +120,14 @@ def callback():
     currently partially managed by model.py
     """
     try:
-        update = update_checks(
-            vehicle, expiry, informed.get(), inspected.get(), renewed.get())
+        updated_vehicle =  []
+        for val in mc.selected_rows:
+            update = update_checks(val[0], val[1], val[2], val[3], val[4])
+            updated_vehicle.append(update)
+        
         if update is not None:
             messagebox.showinfo(
-                "Update", "Some informations have been updated : {}".format(update))
+                "Update", "Some informations have been updated : {}".format(updated_vehicle))
             mc.table_data = show_within(entry.get())
     except ValueError:
         messagebox.showerror(
@@ -155,11 +158,16 @@ def delete_button_func():
     """
     delete item from database
     """
-    result = delete_item(new_vehicle_license.get())
+    delete_vehicle =  []
+    for val in mc.selected_rows:
+        result = delete_item(val[0])
+        delete_vehicle.append(result)
+
+    
     if result is not None:
         messagebox.showinfo(
-            "Deleted item", "An item has been succesfully deleted : {}".format(result))
-        #mc.table_data = show_within(entry.get())
+            "Deleted item", "An item has been succesfully deleted : {}".format(delete_vehicle))
+        mc.table_data = show_within(entry.get())
 
 
 delete_button = Button(editframe,
