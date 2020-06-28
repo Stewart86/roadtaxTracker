@@ -13,12 +13,12 @@ class Vehicle(Model):
     is_inspected = BooleanField(default=False)
     is_renewed = BooleanField(default=False)
 
-    @classmethod
-    def create(cls, vehicle_no, expiry_date):
-        # WIP
-        # parsed_date = None
-        # super(vehicle_no=vehicle_no, expiry_date=_parse_date(expiry_date))
-        return
+    # @classmethod
+    # def create(cls, vehicle_no, expiry_date):
+    #     # WIP
+    #     # parsed_date = None
+    #     # super(vehicle_no=vehicle_no, expiry_date=_parse_date(expiry_date))
+    #     return
 
     @staticmethod
     def _parse_date(date):
@@ -112,7 +112,7 @@ class Crud:
         db.close()
         return f"{vehicle} Deleted!"
 
-
 db.connect()
+# print(db.get_tables()) # Printing all the tables in database
 db.create_tables([Vehicle])
 db.close()
