@@ -2,7 +2,6 @@ from model import Crud
 
 c = Crud()
 
-
 def add_new(vehicle, expiry):
     add_item = c.add_new(vehicle, expiry)
     return add_item
