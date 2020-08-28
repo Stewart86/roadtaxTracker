@@ -27,7 +27,7 @@ def gen_numbers():
 
 def car_plate():
     """
-    Generate passanger vehicle number plate
+    Generate passenger vehicle number plate
 
     Checksum:
 
@@ -238,7 +238,7 @@ def main():
             f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
     else:
         generate(100)
-        csv_writer(100) # Create csv File while generating Values
+        csv_writer(100) # Create csv file while generating values
         # Create Entries in Database(roadtax_date) table('vehicle') With the help of model class
         database_upload(100) 
         input(f"{100} random vehicle generated. Press any key to continue..")
