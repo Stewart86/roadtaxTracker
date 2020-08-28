@@ -1,9 +1,8 @@
 import unittest
 import vehicleGen
 
-
 class TestVehicleNumber(unittest.TestCase):
-    """Test vehicle Number generation"""
+    #Test vehicle Number generation
 
     def test_goods_plate(self):
         self.assertEqual(vehicleGen.goods_plate()[0], "G")
