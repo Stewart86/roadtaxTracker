@@ -1,6 +1,8 @@
 # Author: Miguel Martinez Lopez
 # Version: 0.8
 
+# !pip install regex
+# To install the Regular Expressions Python Package to import it as re
 import re
 from tkinter import StringVar, Entry, Frame, Listbox, Scrollbar
 from tkinter.constants import END, SINGLE, N, S, E, W, VERTICAL, HORIZONTAL
