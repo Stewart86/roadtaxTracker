@@ -84,7 +84,7 @@ mc = Multicolumn_Listbox(bodyframe,
                          column_header,
                          command=on_select,
                          stripped_rows=("white", bg_colour),
-                         select_mode="extended", #browse
+                         select_mode="extended",  # browse
                          cell_anchor="center", height=20)
 
 scrollbar = Scrollbar(bodyframe)
@@ -120,11 +120,11 @@ def callback():
     currently partially managed by model.py
     """
     try:
-        updated_vehicle =  []
+        updated_vehicle = []
         for val in mc.selected_rows:
             update = update_checks(val[0], val[1], val[2], val[3], val[4])
             updated_vehicle.append(update)
-        
+
         if update is not None:
             messagebox.showinfo(
                 "Update", "Some informations have been updated : {}".format(updated_vehicle))
@@ -158,12 +158,11 @@ def delete_button_func():
     """
     delete item from database
     """
-    delete_vehicle =  []
+    delete_vehicle = []
     for val in mc.selected_rows:
         result = delete_item(val[0])
         delete_vehicle.append(result)
 
-    
     if result is not None:
         messagebox.showinfo(
             "Deleted item", "An item has been succesfully deleted : {}".format(delete_vehicle))
@@ -184,7 +183,7 @@ def quit_edit():
     new_vehicle_license1 = add_new(
         new_vehicle_license.get(), new_vehicle_expiry.get())
     if new_vehicle_license1 is not None:
-        messagebox.showinfo("Adding new vehicule", new_vehicle_license1)
+        messagebox.showinfo("Adding new vehicle", new_vehicle_license1)
         #mc.table_data = show_within(entry.get())
 
 
