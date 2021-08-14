@@ -7,6 +7,7 @@ from controller import (add_new, delete_item, show_within, sort_show_vehicle,
                         update_checks)
 from view_autocomplete import Combobox_Autocomplete
 from view_multi_listbox import Multicolumn_Listbox
+import ctypes
 
 bg_colour = "DeepSkyBlue2"
 btn_colour = "DeepSkyBlue3"
@@ -23,6 +24,8 @@ root.configure(background=bg_colour)
 # To make the application non-resizable and to grey out the maximize button
 root.resizable(False, False)
 
+# Makes the application have a cleaner look, less blurriness with scaling.
+ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 vehicle = ""
 expiry = ""
@@ -240,5 +243,4 @@ y = (hs/2) - (h/2)
 # set the dimensions of the screen
 # and where it is placed
 root.geometry('%dx%d+%d+%d' % (w, h, x, y))
-
 root.mainloop()
