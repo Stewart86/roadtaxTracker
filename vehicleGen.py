@@ -25,58 +25,51 @@ def gen_numbers():
     return gen_nums, csnums
 
 
-def car_plate():
+def generate_passenger_vehicle_plate():
     """
-    Generate passenger vehicle number plate
+    Generate a passenger vehicle number plate.
 
     Checksum:
-
-    where A=1 and Z=26,
-
-    Each individual number is then multiplied
-    by 6 fixed numbers (9, 4, 5, 4, 3, 2)
-
+    Each individual number is multiplied by fixed numbers (9, 4, 5, 4, 3, 2).
     These are added up, then divided by 19.
 
-    19 letters used
-    (A, Z, Y, X, U, T, S, R, P, M, L, K, J, H, G, E, D, C, B)
+    19 letters used (A, Z, Y, X, U, T, S, R, P, M, L, K, J, H, G, E, D, C, B)
     with "A" corresponding to a remainder of 0,
-    "Z" corresponding to 1, "Y" corresponding to 2 and so on
-
+    "Z" corresponding to 1, "Y" corresponding to 2, and so on.
     """
 
-    a1 = "S"
+    prefix_letters = {
+        "a1": "S",
+        "a2": ["F", "J", "K", "L"],
+        "a3": ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M",
+               "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    }
 
-    a2 = ["F", "J", "K", "L"]
+    gen_a1 = prefix_letters["a1"]
+    gen_a2 = random.choice(prefix_letters["a2"])
+    gen_a3 = random.choice(prefix_letters["a3"])
 
-    a3 = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M",
-          "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", ]
-
-    gen_a1 = random.choice(a1)
-    gen_a2 = random.choice(a2)
-    gen_a3 = random.choice(a3)
-
-    gen_nums, csnums = gen_numbers()
+    gen_nums, csnums = generate_numbers()
 
     prefix = gen_a1 + gen_a2 + gen_a3
 
     exception = "SKY"
-    if prefix == exception:
-        pass
+    if prefix != exception:
+        csalp2 = (ord(gen_a2.lower()) - 96) * 9
+        csalp3 = (ord(gen_a3.lower()) - 96) * 4
 
-    csalp2 = (ord(gen_a2.lower()) - 96) * 9
-    csalp3 = (ord(gen_a3.lower()) - 96) * 4
+        compute = csalp2 + csalp3 + sum(csnums)
 
-    compute = csalp2 + csalp3 + sum(csnums)
+        number = ''.join(str(num) for num in gen_nums)
 
-    number = ''.join(str(num) for num in gen_nums)
+        try:
+            suffix = get_suffix(compute)
+        except ValueError:
+            # Handle the ValueError here
+            suffix = 'X'
 
-    # TODO: Handle Value Error 
-    suffix = get_suffix(compute)
-
-    compete = prefix + number + suffix
-    return compete
-
+        compete = prefix + number + suffix
+        return compete
 
 def goods_plate():
     """
