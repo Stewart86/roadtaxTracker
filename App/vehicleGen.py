@@ -5,6 +5,7 @@ import sys
 from datetime import date, datetime
 from typing import List, Callable, Tuple
 
+from App.data_plates.PrefixGetter import PrefixGetter
 from model import Crud
 
 
@@ -41,28 +42,7 @@ class VehiculeGenerator:
         "Z" corresponding to 1, "Y" corresponding to 2 and so on
 
         """
-
-        first_letter = \
-                        [
-                            "S"
-                        ]
-
-        second_letters = \
-                        [
-                            "F", "J", "K", "L"
-                        ]
-
-        third_letters = \
-                        [
-                            "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M",
-                            "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-                        ]
-
-        first_letter = random.choice(first_letter)
-        second_letter = random.choice(second_letters)
-        third_letter = random.choice(third_letters)
-
-        prefix: str = f"{first_letter}{second_letter}{third_letter}"
+        prefix: str = PrefixGetter.get_cars_plate_prefix()
 
         exception = "SKY"
         if prefix == exception: #TODO find solution for this edge case
@@ -70,8 +50,8 @@ class VehiculeGenerator:
 
         gen_nums, csnums = VehiculeGenerator.gen_numbers()
 
-        number_accosiate_second_letter = (ord(second_letter.lower()) - 96) * 9
-        number_associate_third_letter = (ord(third_letter.lower()) - 96) * 4
+        number_accosiate_second_letter = (ord(prefix[1].lower()) - 96) * 9
+        number_associate_third_letter = (ord(prefix[2].lower()) - 96) * 4
 
         compute = number_accosiate_second_letter + number_associate_third_letter + sum(csnums)
 
@@ -90,16 +70,9 @@ class VehiculeGenerator:
 
         """
 
-        a1: List[str] = ["G"]
-
-        a2 = ["T", "U", "V", "W", "X", "Y", "Z", "BA", "BB", "BC", "BD", "BE"]
-
-        gen_a1 = random.choice(a1)
-        gen_a2 = random.choice(a2)
-
         gen_nums, csnums = VehiculeGenerator.gen_numbers()
 
-        prefix = gen_a1 + gen_a2
+        prefix = PrefixGetter.get_good_plate_prefi()
 
         if len(prefix) == 2:
 
