@@ -42,27 +42,36 @@ class VehiculeGenerator:
 
         """
 
-        a1 = ["S"]
+        first_letter = \
+                        [
+                            "S"
+                        ]
 
-        a2 = ["F", "J", "K", "L"]
+        second_letters = \
+                        [
+                            "F", "J", "K", "L"
+                        ]
 
-        a3 = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M",
-              "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", ]
+        third_letters = \
+                        [
+                            "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M",
+                            "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+                        ]
 
-        gen_a1 = random.choice(a1)
-        gen_a2 = random.choice(a2)
-        gen_a3 = random.choice(a3)
+        first_letter = random.choice(first_letter)
+        second_letter = random.choice(second_letters)
+        third_letter = random.choice(third_letters)
 
-        gen_nums, csnums = VehiculeGenerator.gen_numbers()
-
-        prefix = gen_a1 + gen_a2 + gen_a3
+        prefix: str = f"{first_letter}{second_letter}{third_letter}"
 
         exception = "SKY"
         if prefix == exception: #TODO find solution for this edge case
             pass
 
-        csalp2 = (ord(gen_a2.lower()) - 96) * 9
-        csalp3 = (ord(gen_a3.lower()) - 96) * 4
+        gen_nums, csnums = VehiculeGenerator.gen_numbers()
+
+        csalp2 = (ord(second_letter.lower()) - 96) * 9
+        csalp3 = (ord(third_letter.lower()) - 96) * 4
 
         compute = csalp2 + csalp3 + sum(csnums)
 
