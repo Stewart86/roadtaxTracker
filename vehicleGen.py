@@ -42,7 +42,7 @@ class VehiculeGenerator:
 
         """
 
-        a1 = "S"
+        a1 = ["S"]
 
         a2 = ["F", "J", "K", "L"]
 
