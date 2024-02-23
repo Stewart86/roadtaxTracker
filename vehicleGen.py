@@ -90,7 +90,7 @@ class VehiculeGenerator:
 
         """
 
-        a1 = ["G"]
+        a1: List[str] = ["G"]
 
         a2 = ["T", "U", "V", "W", "X", "Y", "Z", "BA", "BB", "BC", "BD", "BE"]
 
