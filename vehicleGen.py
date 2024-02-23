@@ -15,12 +15,9 @@ TODO:
 class VehiculeGenerator:
     @staticmethod
     def gen_numbers():
-        csnums: List[int] = []
 
-        gen_nums : List[int] = [random.randint(0, 9) for _ in range(4)]
-
-        for index, num in enumerate(gen_nums):
-            csnums.append(num * (5 - index))
+        gen_nums: List[int] = [random.randint(0, 9) for _ in range(4)]
+        csnums: List[int] = [num * (5 - index) for index, num in enumerate(gen_nums)]
 
         return gen_nums, csnums
 
