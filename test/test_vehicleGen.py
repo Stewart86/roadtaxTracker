@@ -1,18 +1,20 @@
 import unittest
-import vehicleGen
+
+from vehicleGen import VehiculeGenerator
+
 
 class TestVehicleNumber(unittest.TestCase):
     #Test vehicle Number generation
 
     def test_goods_plate(self):
-        self.assertEqual(vehicleGen.goods_plate()[0], "G")
+        self.assertEqual(VehiculeGenerator.goods_plate()[0], "G")
 
     def test_car_plate(self):
-        self.assertEqual(vehicleGen.car_plate()[0], "S")
+        self.assertEqual(VehiculeGenerator.car_plate()[0], "S")
 
     def test_generate(self):
-        test1 = vehicleGen.generate(100, "cars")
-        test2 = vehicleGen.generate(100, "goods")
+        test1 = VehiculeGenerator.generate(100, "cars")
+        test2 = VehiculeGenerator.generate(100, "goods")
         self.assertEqual(len(test1), 100)
         self.assertEqual(len(test2), 100)
         for i in test1:
@@ -21,12 +23,12 @@ class TestVehicleNumber(unittest.TestCase):
             self.assertEqual(i[0], "G")
 
     def test_exception(self):
-        test1 = vehicleGen.generate(200, "cars")
+        test1 = VehiculeGenerator.generate(200, "cars")
         for item in test1:
             self.assertNotEqual(item[0:4], "SKY")
 
     def test_checksum(self):
-        test1 = vehicleGen.generate(100)
+        test1 = VehiculeGenerator.generate(100)
         for item in test1:
             if len(item) == 8:
                 compute = (
