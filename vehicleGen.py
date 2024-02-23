@@ -166,7 +166,7 @@ class VehiculeGenerator:
         generate_type = None
         list_of_cars = []
 
-        if typeof is None:
+        if not typeof:
             plate_generators = [VehiculeGenerator.car_plate, VehiculeGenerator.goods_plate]
             random_int = random.randint(0, len(plate_generators)-1)
             generate_type = plate_generators[random_int]
