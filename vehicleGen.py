@@ -92,9 +92,6 @@ class VehiculeGenerator:
 
         prefix = gen_a1 + gen_a2
 
-        csalp2 = 0
-        csalp3 = 0
-
         if len(prefix) == 2:
 
             csalp2 = (ord(prefix[0].lower()) - 96) * 9
