@@ -3,6 +3,7 @@ import datetime as dt
 import random
 import sys
 from datetime import date, datetime
+from typing import List
 
 from model import Crud
 
@@ -11,238 +12,240 @@ from model import Crud
 TODO:
     Add functions to export generated data directly to database
 """
+class VehiculeGenerator:
+    @staticmethod
+    def gen_numbers():
+        gen_nums : List[int] = []
+        csnums: List[int] = []
 
-def gen_numbers():
-    gen_nums = []
-    csnums = []
+        while len(gen_nums) < 4:
+            gen_nums.append(random.randint(0, 9))
 
-    while len(gen_nums) < 4:
-        gen_nums.append(random.randint(0, 9))
+        for index, num in enumerate(gen_nums):
+            csnums.append(num * (5 - index))
 
-    for index, num in enumerate(gen_nums):
-        csnums.append(num * (5 - index))
+        return gen_nums, csnums
 
-    return gen_nums, csnums
+    @staticmethod
+    def car_plate():
+        """
+        Generate passenger vehicle number plate
 
+        Checksum:
 
-def car_plate():
-    """
-    Generate passenger vehicle number plate
+        where A=1 and Z=26,
 
-    Checksum:
+        Each individual number is then multiplied
+        by 6 fixed numbers (9, 4, 5, 4, 3, 2)
 
-    where A=1 and Z=26,
+        These are added up, then divided by 19.
 
-    Each individual number is then multiplied
-    by 6 fixed numbers (9, 4, 5, 4, 3, 2)
+        19 letters used
+        (A, Z, Y, X, U, T, S, R, P, M, L, K, J, H, G, E, D, C, B)
+        with "A" corresponding to a remainder of 0,
+        "Z" corresponding to 1, "Y" corresponding to 2 and so on
 
-    These are added up, then divided by 19.
+        """
 
-    19 letters used
-    (A, Z, Y, X, U, T, S, R, P, M, L, K, J, H, G, E, D, C, B)
-    with "A" corresponding to a remainder of 0,
-    "Z" corresponding to 1, "Y" corresponding to 2 and so on
+        a1 = "S"
 
-    """
+        a2 = ["F", "J", "K", "L"]
 
-    a1 = "S"
+        a3 = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M",
+              "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", ]
 
-    a2 = ["F", "J", "K", "L"]
+        gen_a1 = random.choice(a1)
+        gen_a2 = random.choice(a2)
+        gen_a3 = random.choice(a3)
 
-    a3 = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M",
-          "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", ]
+        gen_nums, csnums = VehiculeGenerator.gen_numbers()
 
-    gen_a1 = random.choice(a1)
-    gen_a2 = random.choice(a2)
-    gen_a3 = random.choice(a3)
+        prefix = gen_a1 + gen_a2 + gen_a3
 
-    gen_nums, csnums = gen_numbers()
+        exception = "SKY"
+        if prefix == exception:
+            pass
 
-    prefix = gen_a1 + gen_a2 + gen_a3
+        csalp2 = (ord(gen_a2.lower()) - 96) * 9
+        csalp3 = (ord(gen_a3.lower()) - 96) * 4
 
-    exception = "SKY"
-    if prefix == exception:
-        pass
+        compute = csalp2 + csalp3 + sum(csnums)
 
-    csalp2 = (ord(gen_a2.lower()) - 96) * 9
-    csalp3 = (ord(gen_a3.lower()) - 96) * 4
+        number = ''.join(str(num) for num in gen_nums)
 
-    compute = csalp2 + csalp3 + sum(csnums)
+        # TODO: Handle Value Error
+        suffix = VehiculeGenerator.get_suffix(compute)
 
-    number = ''.join(str(num) for num in gen_nums)
+        compete = prefix + number + suffix
+        return compete
 
-    # TODO: Handle Value Error 
-    suffix = get_suffix(compute)
+    @staticmethod
+    def goods_plate():
+        """
+        Generate commerical vehicle number plate
 
-    compete = prefix + number + suffix
-    return compete
+        """
 
+        a1 = "G"
 
-def goods_plate():
-    """
-    Generate commerical vehicle number plate
+        a2 = ["T", "U", "V", "W", "X", "Y", "Z", "BA", "BB", "BC", "BD", "BE"]
 
-    """
+        gen_a1 = random.choice(a1)
+        gen_a2 = random.choice(a2)
 
-    a1 = "G"
+        gen_nums, csnums = VehiculeGenerator.gen_numbers()
 
-    a2 = ["T", "U", "V", "W", "X", "Y", "Z", "BA", "BB", "BC", "BD", "BE"]
+        prefix = gen_a1 + gen_a2
 
-    gen_a1 = random.choice(a1)
-    gen_a2 = random.choice(a2)
+        csalp2 = 0
+        csalp3 = 0
 
-    gen_nums, csnums = gen_numbers()
+        if len(prefix) == 2:
 
-    prefix = gen_a1 + gen_a2
+            csalp2 = (ord(prefix[0].lower()) - 96) * 9
+            csalp3 = (ord(prefix[1].lower()) - 96) * 4
 
-    csalp2 = 0
-    csalp3 = 0
+        else:
+            csalp2 = (ord(prefix[1].lower()) - 96) * 9
+            csalp3 = (ord(prefix[2].lower()) - 96) * 4
 
-    if len(prefix) == 2:
+        compute = csalp2 + csalp3 + sum(csnums)
 
-        csalp2 = (ord(prefix[0].lower()) - 96) * 9
-        csalp3 = (ord(prefix[1].lower()) - 96) * 4
+        number = ''.join(str(num) for num in gen_nums)
 
-    else:
-        csalp2 = (ord(prefix[1].lower()) - 96) * 9
-        csalp3 = (ord(prefix[2].lower()) - 96) * 4
+        # TODO: Handle Value Error
+        suffix = VehiculeGenerator.get_suffix(compute)
 
-    compute = csalp2 + csalp3 + sum(csnums)
+        compete = prefix + number + suffix
+        return compete
 
-    number = ''.join(str(num) for num in gen_nums)
+    @staticmethod
+    def get_suffix(num):
+        compute_dict = {
+            0  : 'A',
+            1  : 'Z',
+            2  : 'Y',
+            3  : 'X',
+            4  : 'U',
+            5  : 'T',
+            6  : 'S',
+            7  : 'R',
+            8  : 'P',
+            9  : 'M',
+            10 : 'L',
+            11 : 'K',
+            12 : 'J',
+            13 : 'H',
+            14 : 'G',
+            15 : 'E',
+            16 : 'D',
+            17 : 'C',
+            18 : 'B'
+        }
 
-    # TODO: Handle Value Error 
-    suffix = get_suffix(compute)
+        if num % 19 in compute_dict:
+            return compute_dict[num % 19]
+        else:
+            raise ValueError
 
-    compete = prefix + number + suffix
-    return compete
+    @staticmethod
+    def date_gen():
+        """
+        Generate random date ranging from today and one year later
+        """
+        rd = random.randrange(0, 365)
+        rod = dt.timedelta(days=rd)
+        return datetime.strftime(date.today() + rod, '%d.%m.%Y')
 
-def get_suffix(num):
-    compute_dict = {   
-        0  : 'A',
-        1  : 'Z',
-        2  : 'Y',
-        3  : 'X',
-        4  : 'U',
-        5  : 'T',
-        6  : 'S',
-        7  : 'R',
-        8  : 'P',
-        9  : 'M',
-        10 : 'L',
-        11 : 'K',
-        12 : 'J',
-        13 : 'H',
-        14 : 'G',
-        15 : 'E',
-        16 : 'D',
-        17 : 'C',
-        18 : 'B'
-    }
+    @staticmethod
+    def generate(number, typeof=None):
+        """
+        args:
+            number --> number of vehicles to generate.
 
-    if num % 19 in compute_dict:
-        return compute_dict[num % 19]
-    else:
-        raise ValueError
+            typeof --> None to generate both commerical and cars randomly
+                   --> "cars" for car only
+                   --> "goods" for commerical vehicle only
 
+        """
+        generate_type = None
+        list_of_cars = []
 
-def date_gen():
-    """
-    Generate random date ranging from today and one year later
-    """
-    rd = random.randrange(0, 365)
-    rod = dt.timedelta(days=rd)
-    return datetime.strftime(date.today() + rod, '%d.%m.%Y')
+        if typeof is None:
+            plate_generators = [VehiculeGenerator.car_plate, VehiculeGenerator.goods_plate]
+            random_int = random.randint(0, len(plate_generators)-1)
+            generate_type = plate_generators[random_int]
+        elif typeof == "cars":
+            generate_type = VehiculeGenerator.car_plate
+        else:
+            generate_type = VehiculeGenerator.goods_plate
 
+        for _ in range(number):
+            new_license_plate = generate_type()
+            list_of_cars.append(new_license_plate)
 
-def generate(number, typeof=None):
-    """
-    args:
-        number --> number of vehicles to generate.
+        return list_of_cars
 
-        typeof --> None to generate both commerical and cars randomly
-               --> "cars" for car only
-               --> "goods" for commerical vehicle only
+    @staticmethod
+    def csv_writer(entries, typeof=None):
+        """
+        write a list of random generated vehicle number and roadtax expiry date
+        to a CSV file with filename as "roadtax.csv"
 
-    """
-    generate_type = None
-    list_of_cars = []
+        args:
+            refer to generate(number, typeof = None) for more info
 
-    if typeof is None:
-        plate_generators = [car_plate, goods_plate]
-        random_int = random.randint(0, len(plate_generators)-1)
-        generate_type = plate_generators[random_int]
-    elif typeof == "cars":
-        generate_type = car_plate
-    else:
-        generate_type = goods_plate
+        """
+        with open('roadtax.csv', 'w+', newline='') as f:
+            fieldnames = ['CarPlate', 'ExpiryDate']
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            items = VehiculeGenerator.generate(entries, typeof)
+            writer.writeheader()
+            for item in items:
+                writer.writerow(
+                    {'CarPlate': f"{item}", 'ExpiryDate': f"{VehiculeGenerator.date_gen()}"})
 
-    for _ in range(number):
-        new_license_plate = generate_type()
-        list_of_cars.append(new_license_plate)
+    @staticmethod
+    def database_upload(entries, typeof=None):
+        """
+        write a list of random generated vehicle number and roadtax expiry date
+        to a SQlite3 database with filename as "roadtax_date.db" according to
+        model.py
 
-    return list_of_cars
+        args:
+            refer to generate(number, typeof = None) for more info
 
-
-def csv_writer(entries, typeof=None):
-    """
-    write a list of random generated vehicle number and roadtax expiry date
-    to a CSV file with filename as "roadtax.csv"
-
-    args:
-        refer to generate(number, typeof = None) for more info
-
-    """
-    with open('roadtax.csv', 'w+', newline='') as f:
-        fieldnames = ['CarPlate', 'ExpiryDate']
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        items = generate(entries, typeof)
-        writer.writeheader()
+        """
+        c = Crud()
+        items = VehiculeGenerator.generate(entries, typeof)
         for item in items:
-            writer.writerow(
-                {'CarPlate': f"{item}", 'ExpiryDate': f"{date_gen()}"})
+            c.add_new(item, VehiculeGenerator.date_gen())
 
-
-def database_upload(entries, typeof=None):
-    """
-    write a list of random generated vehicle number and roadtax expiry date
-    to a SQlite3 database with filename as "roadtax_date.db" according to
-    model.py
-
-    args:
-        refer to generate(number, typeof = None) for more info
-
-    """
-    c = Crud()
-    items = generate(entries, typeof)
-    for item in items:
-        c.add_new(item, date_gen())
-
-
-def main():
-    """
-    running as a script.
-        --> no arg provided, auto generate 100 random vehicle numbers
-        --> number of vehicle number provided, generate number with random
-            type
-        --> number of vehicle and type provided, generate number with that
-            named type. refer to generate function for typeof keywords
-    """
-    if len(sys.argv) == 2:
-        generate(int(sys.argv[1]))
-        input(
-            f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
-    elif len(sys.argv) > 2:
-        generate(int(sys.argv[1]), sys.argv[2])
-        input(
-            f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
-    else:
-        generate(100)
-        csv_writer(100) # Create csv file while generating values
-        # Create Entries in Database(roadtax_date) table('vehicle') With the help of model class
-        database_upload(100) 
-        input(f"{100} random vehicle generated. Press any key to continue..")
+    @staticmethod
+    def main():
+        """
+        running as a script.
+            --> no arg provided, auto generate 100 random vehicle numbers
+            --> number of vehicle number provided, generate number with random
+                type
+            --> number of vehicle and type provided, generate number with that
+                named type. refer to generate function for typeof keywords
+        """
+        if len(sys.argv) == 2:
+            VehiculeGenerator.generate(int(sys.argv[1]))
+            input(
+                f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
+        elif len(sys.argv) > 2:
+            VehiculeGenerator.generate(int(sys.argv[1]), sys.argv[2])
+            input(
+                f"{sys.argv[1]} random vehicle generated. Press any key to continue..")
+        else:
+            VehiculeGenerator.generate(100)
+            VehiculeGenerator.csv_writer(100) # Create csv file while generating values
+            # Create Entries in Database(roadtax_date) table('vehicle') With the help of model class
+            VehiculeGenerator.database_upload(100)
+            input(f"{100} random vehicle generated. Press any key to continue..")
 
 
 if __name__ == '__main__':
-    main()
+    VehiculeGenerator.main()
