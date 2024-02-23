@@ -70,10 +70,10 @@ class VehiculeGenerator:
 
         gen_nums, csnums = VehiculeGenerator.gen_numbers()
 
-        csalp2 = (ord(second_letter.lower()) - 96) * 9
-        csalp3 = (ord(third_letter.lower()) - 96) * 4
+        number_accosiate_second_letter = (ord(second_letter.lower()) - 96) * 9
+        number_associate_third_letter = (ord(third_letter.lower()) - 96) * 4
 
-        compute = csalp2 + csalp3 + sum(csnums)
+        compute = number_accosiate_second_letter + number_associate_third_letter + sum(csnums)
 
         number = ''.join(str(num) for num in gen_nums)
 
