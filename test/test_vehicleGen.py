@@ -6,6 +6,10 @@ from vehicleGen import VehiculeGenerator
 class TestVehicleNumber(unittest.TestCase):
     #Test vehicle Number generation
 
+    def test_gen_numbers(self):
+        gen_nums, csnums = VehiculeGenerator.gen_numbers()
+        self.assertEqual(8,len(gen_nums)+len(csnums))
+
     def test_goods_plate(self):
         self.assertEqual(VehiculeGenerator.goods_plate()[0], "G")
 
