@@ -3,7 +3,7 @@ import datetime as dt
 import random
 import sys
 from datetime import date, datetime
-from typing import List
+from typing import List, Callable, Tuple
 
 from model import Crud
 
@@ -14,7 +14,7 @@ TODO:
 """
 class VehiculeGenerator:
     @staticmethod
-    def gen_numbers():
+    def gen_numbers() -> Tuple[List[int],List[int]]:
 
         gen_nums: List[int] = [random.randint(0, 9) for _ in range(4)]
         csnums: List[int] = [num * (5 - index) for index, num in enumerate(gen_nums)]
@@ -22,7 +22,7 @@ class VehiculeGenerator:
         return gen_nums, csnums
 
     @staticmethod
-    def car_plate():
+    def car_plate() -> str:
         """
         Generate passenger vehicle number plate
 
@@ -58,7 +58,7 @@ class VehiculeGenerator:
         prefix = gen_a1 + gen_a2 + gen_a3
 
         exception = "SKY"
-        if prefix == exception:
+        if prefix == exception: #TODO find solution for this edge case
             pass
 
         csalp2 = (ord(gen_a2.lower()) - 96) * 9
@@ -75,13 +75,13 @@ class VehiculeGenerator:
         return compete
 
     @staticmethod
-    def goods_plate():
+    def goods_plate() -> str:
         """
         Generate commerical vehicle number plate
 
         """
 
-        a1 = "G"
+        a1 = ["G"]
 
         a2 = ["T", "U", "V", "W", "X", "Y", "Z", "BA", "BB", "BC", "BD", "BE"]
 
@@ -115,7 +115,7 @@ class VehiculeGenerator:
         return compete
 
     @staticmethod
-    def get_suffix(num):
+    def get_suffix(num) -> str:
         compute_dict = {
             0  : 'A',
             1  : 'Z',
@@ -144,7 +144,7 @@ class VehiculeGenerator:
             raise ValueError
 
     @staticmethod
-    def date_gen():
+    def date_gen() -> str:
         """
         Generate random date ranging from today and one year later
         """
@@ -153,7 +153,7 @@ class VehiculeGenerator:
         return datetime.strftime(date.today() + rod, '%d.%m.%Y')
 
     @staticmethod
-    def generate(number, typeof=None):
+    def generate(number, typeof=None) -> List[str]:
         """
         args:
             number --> number of vehicles to generate.
@@ -164,11 +164,11 @@ class VehiculeGenerator:
 
         """
         generate_type = None
-        list_of_cars = []
+        cars: List[str] = []
 
         if not typeof:
-            plate_generators = [VehiculeGenerator.car_plate, VehiculeGenerator.goods_plate]
-            random_int = random.randint(0, len(plate_generators)-1)
+            plate_generators: List[Callable] = [VehiculeGenerator.car_plate, VehiculeGenerator.goods_plate]
+            random_int: int = random.randint(0, len(plate_generators)-1)
             generate_type = plate_generators[random_int]
         elif typeof == "cars":
             generate_type = VehiculeGenerator.car_plate
@@ -176,10 +176,10 @@ class VehiculeGenerator:
             generate_type = VehiculeGenerator.goods_plate
 
         for _ in range(number):
-            new_license_plate = generate_type()
-            list_of_cars.append(new_license_plate)
+            new_license_plate: str = generate_type()
+            cars.append(new_license_plate)
 
-        return list_of_cars
+        return cars
 
     @staticmethod
     def csv_writer(entries, typeof=None):
