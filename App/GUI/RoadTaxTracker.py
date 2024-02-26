@@ -1,4 +1,4 @@
 if __name__ == '__main__':
-    import view
+    from App.GUI import view
 
     view.run()

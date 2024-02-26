@@ -178,7 +178,7 @@ delete_button = Button(editframe,
                        background=btn_colour,
                        disabledforeground="DeepSkyBlue4", borderwidth=0, highlightbackground=bg_alt)
 # make sure to add "/" not "\"
-delete_img = PhotoImage(file="assets/buttons/button_delete.gif")
+delete_img = PhotoImage(file="../../assets/buttons/button_delete.gif")
 delete_button.config(image=delete_img)
 
 
@@ -195,14 +195,14 @@ add_button = Button(editframe,
                     text="Add / Edit",
                     background=btn_colour,
                     disabledforeground="DeepSkyBlue4", borderwidth=0, highlightbackground=bg_alt)
-add_img = PhotoImage(file="assets/buttons/button_add-edit.gif")
+add_img = PhotoImage(file="../../assets/buttons/button_add-edit.gif")
 add_button.config(image=add_img)
 
 update = Button(bodyframe,
                 text="Update!",
                 background=btn_colour,
                 command=callback, disabledforeground="DeepSkyBlue4", borderwidth=0, highlightbackground=bg_colour)
-update_img = PhotoImage(file="assets/buttons/button_update.gif")
+update_img = PhotoImage(file="../../assets/buttons/button_update.gif")
 update.config(image=update_img)
 
 
