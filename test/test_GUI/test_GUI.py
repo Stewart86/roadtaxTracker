@@ -12,3 +12,14 @@ class TestGUI(unittest.TestCase):
         title_output = self.app.winfo_toplevel().title()
         expected = 'RoadTax Renewal Tracker'
         self.assertEqual(expected,title_output)
+
+    def test_window_width(self):
+        width_output = self.app.winfo_width()
+        expected = 1024
+        self.assertEqual(expected,width_output)
+
+
+    def test_window_height(self):
+        height_output = self.app.winfo_height()
+        expected = 686
+        self.assertEqual(expected,height_output)
