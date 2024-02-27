@@ -4,10 +4,10 @@ from tkinter import ttk
 from tkinter import messagebox
 
 from App.GUI.Colors import Colors
+from App.GUI.view_autocomplete import Combobox_Autocomplete
+from App.GUI.view_multi_listbox import Multicolumn_Listbox
 from controller import (add_new, delete_item, show_within, sort_show_vehicle,
                         update_checks)
-from view_autocomplete import Combobox_Autocomplete
-from view_multi_listbox import Multicolumn_Listbox
 import ctypes
 
 bg_colour = Colors.get_background_color()
