@@ -23,3 +23,13 @@ class TestGUI(unittest.TestCase):
         height_output = self.app.winfo_height()
         expected = 686
         self.assertEqual(expected,height_output)
+
+    def test_title_frame(self):
+        name_title_fram = self.app.titleframe.winfo_name()
+        expected = ''
+        self.assertEqual(expected,name_title_fram)
+
+    def test_update_button(self):
+        output = self.app.update.invoke()
+        expected = None
+        self.assertEqual(expected,output)
