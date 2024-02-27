@@ -7,11 +7,8 @@ class TestGUI(unittest.TestCase):
         self.app.run()
 
     def setUp(self):
-        self.app = view
-
-    def tearDown(self):
-        self.app.destroy()
+        self.app = view.get_root()
     def test_window(self):
         title_output = self.app.winfo_toplevel().title()
-        expected = ""
-        self.assertEqual(title_output,expected)
+        expected = 'RoadTax Renewal Tracker'
+        self.assertEqual(expected,title_output)
