@@ -243,4 +243,6 @@ y = (hs/2) - (h/2)
 # set the dimensions of the screen
 # and where it is placed
 root.geometry('%dx%d+%d+%d' % (w, h, x, y))
-root.mainloop()
+def get_root():
+    return root
+#root.mainloop()
