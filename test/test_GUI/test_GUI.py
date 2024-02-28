@@ -38,3 +38,9 @@ class TestGUI(unittest.TestCase):
         output = self.helper_assert_children(children)
         expected = ['!frame', '!label', '!labelframe', '!notebook']
         self.assertEqual(expected,output)
+
+    def test_children_of_frame(self):
+        children = self.app.children["!frame"].children
+        output = self.helper_assert_children(children)
+        expected = ['!label']
+        self.assertEqual(expected,output)
