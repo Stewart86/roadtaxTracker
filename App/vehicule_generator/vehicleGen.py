@@ -170,7 +170,7 @@ class VehiculeGenerator:
             refer to generate(number, typeof = None) for more info
 
         """
-        with open('../roadtax.csv', 'w+', newline='') as f:
+        with open('../../roadtax.csv', 'w+', newline='') as f:
             fieldnames = ['CarPlate', 'ExpiryDate']
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             items = VehiculeGenerator.generate(entries, typeof)
