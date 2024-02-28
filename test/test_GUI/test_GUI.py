@@ -64,6 +64,19 @@ class TestGUI(unittest.TestCase):
                     '!button']
         self.assertEqual(expected, output)
 
+
+    def test_children_of_scrollbar(self):
+        children = self.app.children["!notebook"].children["!frame"].children["!scrollbar"].children
+        output = self.helper_assert_children(children)
+        expected = []
+        self.assertEqual(expected,output)
+
+    def test_children_of_treeview(self):
+        children = self.app.children["!notebook"].children["!frame"].children["!treeview"].children
+        output = self.helper_assert_children(children)
+        expected = []
+        self.assertEqual(expected,output)
+
     def test_frame_notebook_button(self):
         output = self.app.children["!notebook"].children["!frame"].children["!button"].invoke()
         expected = 'None'
