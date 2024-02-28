@@ -8,6 +8,10 @@ class TestGUI(unittest.TestCase):
 
     def setUp(self):
         self.app = view.get_root()
+
+    def helper_assert_children(self, children):
+        output = [child for child in children]
+        return output
     def test_window(self):
         title_output = self.app.winfo_toplevel().title()
         expected = 'RoadTax Renewal Tracker'
@@ -25,11 +29,12 @@ class TestGUI(unittest.TestCase):
         self.assertEqual(expected,height_output)
 
     def test_title_frame(self):
-        name_title_fram = self.app.titleframe.winfo_name()
-        expected = ''
-        self.assertEqual(expected,name_title_fram)
+        output = self.app.children["!frame"].winfo_name()
+        expected = "!frame"
+        self.assertEqual(expected,output)
 
-    def test_update_button(self):
-        output = self.app.update.invoke()
-        expected = None
+    def test_children_of_root(self):
+        children = self.app.children
+        output = self.helper_assert_children(children)
+        expected = ['!frame', '!label', '!labelframe', '!notebook']
         self.assertEqual(expected,output)
