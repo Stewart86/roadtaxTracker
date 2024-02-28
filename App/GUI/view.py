@@ -245,4 +245,7 @@ y = (hs/2) - (h/2)
 root.geometry('%dx%d+%d+%d' % (w, h, x, y))
 def get_root():
     return root
-#root.mainloop()
+
+#if __name__=="__main__":
+#    debug_root = root
+#    root.mainloop()
